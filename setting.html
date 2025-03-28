@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>选手挑选与比赛数据表单</title>
+  <link rel="stylesheet" href="./setting.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- 左侧列：包含两个表单 -->
+    <div class="left-column">
+      <!-- MVP 选手挑选表单 -->
+      <div class="card">
+        <form @submit.prevent="submitForm">
+          <h2>选择本局MVP</h2>
+          <label for="contestant">本局MVP：</label>
+          <select id="contestant" name="mvp" v-model="selectedContestant" required>
+            <option disabled value="">请选择本局MVP选手</option>
+            <option v-for="contestant in contestants" :key="contestant">
+              {{ contestant }}
+            </option>
+          </select>
+          <input type="submit" value="提交">
+        </form>
+      </div>
+
+      <!-- 比赛数据录入表单 -->
+      <div class="card">
+        <form @submit.prevent="submitMatchData">
+          <h2>比赛数据</h2>
+          <label for="match_code">Match Code：</label>
+          <input type="text" id="match_code" v-model="matchData.match_code" placeholder="请输入 唯一比赛编号" required>
+
+          <label for="match_week">Match Week：</label>
+          <input type="text" id="match_week" v-model="matchData.match_week" placeholder="请输入 比赛周" required>
+
+          <label for="match_day">Match Day：</label>
+          <input type="text" id="match_day" v-model="matchData.match_day" placeholder="请输入 周中比赛日" required>
+
+          <label for="match_num">Match Num：</label>
+          <input type="number" id="match_num" v-model="matchData.match_num" placeholder="请输入 本日比赛场次" required>
+
+          <label for="type">Type：</label>
+          <input type="text" id="type" v-model="matchData.type" placeholder="请输入 比赛类型，0为BO1，1为BO3" autocomplete="off"
+            required>
+
+          <label for="series">Series：</label>
+          <input type="text" id="series" v-model="matchData.series" placeholder="请输入 系列赛编号" required>
+
+          <label for="team1">Team1：</label>
+          <input type="text" id="team1" v-model="matchData.team1" placeholder="请输入 队伍1" required>
+
+          <label for="team2">Team2：</label>
+          <input type="text" id="team2" v-model="matchData.team2" placeholder="请输入 队伍2" required>
+
+          <label for="team2">获胜队伍：</label>
+          <input type="text" id="win_team" v-model="matchData.win_team" placeholder="请输入 获胜队伍" required>
+
+          <label for="description">Description：</label>
+          <input type="text" id="description" v-model="matchData.description" placeholder="请输入 比赛备注,如：第x周第x日第x场">
+
+          <input type="submit" value="提交比赛数据">
+        </form>
+      </div>
+    </div>
+
+    <!-- 右侧列：MVP 展示卡片 -->
+    <div class="right-column">
+      <transition name="fade">
+        <div v-if="mvpCard" class="card mvp-card">
+          <h2>MVP 选手信息</h2>
+          <p><strong>姓名：</strong> {{ mvpCard.player_name }}</p>
+          <!-- <p><strong>队伍：</strong> {{ mvpCard.team_name }}</p>
+          <p><strong>座位号：</strong> {{ mvpCard.seat }}</p> -->
+          <p><strong>kills</strong> {{ mvpCard.kills }}</p>
+          <p><strong>deaths:</strong> {{ mvpCard.deaths }}</p>
+          <p><strong>assists</strong> {{ mvpCard.assists }}</p>
+          <p><strong>adr</strong> {{ mvpCard.adr }}</p>
+        </div>
+      </transition>
+    </div>
+  </div>
+
+  <!-- 引入 Vue 3、Axios 和 SweetAlert2（CDN） -->
+  <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+  <script src="./vue.global.js"></script>
+  <script src="./axios.min.js"></script>
+  <script src="./sweetalert2.js"></script>
+  <script src="./setting.js"></script>
+</body>
+
+</html>

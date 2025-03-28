@@ -1,0 +1,67 @@
+{
+    "player": {
+        "76561198352207442": {
+            "player_name": "老七老七老七",
+            "team_name": "tz",
+            "player_seat": 1
+        },
+        "76561199062513908": {
+            "player_name": "用户0201VNSFrMa5",
+            "team_name": "tz",
+            "player_seat": 2
+        },
+        "76561199235075585": {
+            "player_name": "68年开始玩身法",
+            "team_name": "tz",
+            "player_seat": 3
+        },
+        "76561199303995538": {
+            "player_name": "龙泉第一突破手666",
+            "team_name": "tz",
+            "player_seat": 4
+        },
+        "76561199365770734": {
+            "player_name": "蜜桃海岛椰",
+            "team_name": "tz",
+            "player_seat": 5
+        },
+        "76561198400868758": {
+            "player_name": "竣哥哥",
+            "team_name": "Patrol",
+            "player_seat": 6
+        },
+        "76561198407864008": {
+            "player_name": "Way电竞Sclove33",
+            "team_name": "Patrol",
+            "player_seat": 7
+        },
+        "76561198833970060": {
+            "player_name": "亦米",
+            "team_name": "Patrol",
+            "player_seat": 8
+        },
+        "76561199182529458": {
+            "player_name": "肥轩不打狙",
+            "team_name": "Patrol",
+            "player_seat": 9
+        },
+        "76561199210452183": {
+            "player_name": "Monkeeyyy",
+            "team_name": "Patrol",
+            "player_seat": 10
+        }
+    },
+    "teams": {
+        "left": {
+            "fullname": "LSH",
+            "shortname": "LSH"
+        },
+        "right": {
+            "fullname": "TEAM XDM",
+            "shortname": "XDM"
+        }
+    },
+    "match_id": "1-0-627-3",
+    "schedule_id": "1-0-627",
+    "is_over": "1"
+}

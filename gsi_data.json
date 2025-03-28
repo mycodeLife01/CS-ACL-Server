@@ -1,0 +1,563 @@
+{
+    "provider": {
+        "name": "Counter-Strike: Global Offensive",
+        "appid": 730,
+        "version": 14072,
+        "steamid": "76561199483415321",
+        "timestamp": 1743006981
+    },
+    "phase_countdowns": {
+        "phase": "freezetime",
+        "phase_ends_in": "-56.9"
+    },
+    "map": {
+        "round_wins": {
+            "1": "ct_win_elimination",
+            "2": "t_win_elimination",
+            "3": "t_win_elimination",
+            "4": "ct_win_elimination",
+            "5": "ct_win_elimination"
+        },
+        "mode": "competitive",
+        "name": "de_train",
+        "phase": "gameover",
+        "round": 29,
+        "team_ct": {
+            "score": 16,
+            "name": "TEAM XDM",
+            "consecutive_round_losses": 0,
+            "timeouts_remaining": 0,
+            "matches_won_this_series": 0
+        },
+        "team_t": {
+            "score": 13,
+            "name": "LSH",
+            "consecutive_round_losses": 3,
+            "timeouts_remaining": 1,
+            "matches_won_this_series": 0
+        },
+        "num_matches_to_win_series": 0
+    },
+    "round": {
+        "phase": "freezetime",
+        "win_team": "CT"
+    },
+    "bomb": {
+        "state": "dropped",
+        "position": "-527.12, 485.50, -171.69"
+    },
+    "player": {
+        "match_stats": {
+            "kills": 15,
+            "assists": 7,
+            "deaths": 17,
+            "mvps": 3,
+            "score": 37
+        },
+        "spectarget": "76561199266867937",
+        "position": "-196.74, -287.48, -208.97",
+        "forward": "-0.37, 0.93, -0.01",
+        "weapons": {
+            "weapon_0": {
+                "name": "weapon_knife_butterfly",
+                "paintkit": "aa_fade",
+                "type": "Knife",
+                "state": "holstered"
+            },
+            "weapon_1": {
+                "name": "weapon_usp_silencer",
+                "paintkit": "cu_usp_printstream",
+                "type": "Pistol",
+                "ammo_clip": 12,
+                "ammo_clip_max": 12,
+                "ammo_reserve": 24,
+                "state": "holstered"
+            },
+            "weapon_2": {
+                "name": "weapon_m4a1_silencer",
+                "paintkit": "cu_m4a1s_printstream",
+                "type": "Rifle",
+                "ammo_clip": 18,
+                "ammo_clip_max": 20,
+                "ammo_reserve": 80,
+                "state": "active"
+            },
+            "weapon_3": {
+                "name": "weapon_flashbang",
+                "paintkit": "default",
+                "type": "Grenade",
+                "ammo_reserve": 1,
+                "state": "holstered"
+            }
+        },
+        "state": {
+            "health": 100,
+            "armor": 100,
+            "helmet": true,
+            "defusekit": true,
+            "flashed": 0,
+            "smoked": 0,
+            "burning": 0,
+            "money": 12600,
+            "round_kills": 0,
+            "round_killhs": 0,
+            "round_totaldmg": 0,
+            "equip_value": 5800
+        },
+        "steamid": "76561199266867937",
+        "clan": "TEAM XDM",
+        "name": "Dyin困告1337",
+        "observer_slot": 3,
+        "team": "CT",
+        "activity": "playing"
+    },
+    "grenades": {
+        "368": {
+            "owner": "76561198383111397",
+            "lifetime": "2.0",
+            "type": "inferno",
+            "flames": {
+                "flame_p509_p625_n216": "509.00, 625.00, -216.00",
+                "flame_p568_p627_n216": "568.00, 627.00, -216.00",
+                "flame_p552_p681_n216": "552.00, 681.00, -216.00",
+                "flame_p620_p608_n216": "620.00, 608.00, -216.00",
+                "flame_p586_p732_n216": "586.00, 732.00, -216.00",
+                "flame_p650_p572_n216": "650.00, 572.00, -216.00",
+                "flame_p613_p663_n216": "613.00, 663.00, -216.00",
+                "flame_p552_p769_n216": "552.00, 769.00, -216.00",
+                "flame_p637_p703_n216": "637.00, 703.00, -216.00",
+                "flame_p605_p541_n216": "605.00, 541.00, -216.00",
+                "flame_p659_p630_n216": "659.00, 630.00, -216.00"
+            }
+        }
+    },
+    "allplayers": {
+        "76561198445130456": {
+            "clan": "TEAM XDM",
+            "name": "抖音darkk",
+            "observer_slot": 0,
+            "team": "CT",
+            "match_stats": {
+                "kills": 24,
+                "assists": 1,
+                "deaths": 16,
+                "mvps": 5,
+                "score": 51
+            },
+            "position": "-196.74, -287.48, -208.97",
+            "forward": "-0.75, -0.67, -0.00",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 13100,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 25,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198358874951": {
+            "clan": "TEAM XDM",
+            "name": "抖音CS2影子人",
+            "observer_slot": 1,
+            "team": "CT",
+            "match_stats": {
+                "kills": 22,
+                "assists": 6,
+                "deaths": 18,
+                "mvps": 2,
+                "score": 54
+            },
+            "position": "836.11, 576.92, -211.97",
+            "forward": "-1.00, -0.09, -0.01",
+            "state": {
+                "health": 97,
+                "armor": 100,
+                "helmet": true,
+                "defusekit": true,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 162,
+                "money": 11450,
+                "round_kills": 2,
+                "round_killhs": 0,
+                "round_totaldmg": 146,
+                "equip_value": 7950
+            },
+            "weapons": {
+                "weapon_0": {
+                    "name": "weapon_knife_butterfly",
+                    "paintkit": "default",
+                    "type": "Knife",
+                    "state": "holstered"
+                },
+                "weapon_1": {
+                    "name": "weapon_awp",
+                    "paintkit": "gs_awp_strone",
+                    "type": "SniperRifle",
+                    "ammo_clip": 3,
+                    "ammo_clip_max": 5,
+                    "ammo_reserve": 30,
+                    "state": "active"
+                },
+                "weapon_2": {
+                    "name": "weapon_smokegrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_3": {
+                    "name": "weapon_flashbang",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_4": {
+                    "name": "weapon_hegrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_5": {
+                    "name": "weapon_incgrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_6": {
+                    "name": "weapon_fiveseven",
+                    "paintkit": "default",
+                    "type": "Pistol",
+                    "ammo_clip": 20,
+                    "ammo_clip_max": 20,
+                    "ammo_reserve": 100,
+                    "state": "holstered"
+                }
+            }
+        },
+        "76561199032460571": {
+            "clan": "TEAM XDM",
+            "name": "抖音奕剑",
+            "observer_slot": 2,
+            "team": "CT",
+            "match_stats": {
+                "kills": 19,
+                "assists": 8,
+                "deaths": 17,
+                "mvps": 3,
+                "score": 46
+            },
+            "position": "402.45, -843.02, -264.08",
+            "forward": "0.98, 0.13, -0.16",
+            "state": {
+                "health": 100,
+                "armor": 96,
+                "helmet": true,
+                "defusekit": true,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 11250,
+                "round_kills": 1,
+                "round_killhs": 0,
+                "round_totaldmg": 100,
+                "equip_value": 7650
+            },
+            "weapons": {
+                "weapon_0": {
+                    "name": "weapon_knife_butterfly",
+                    "paintkit": "am_gamma_doppler_phase1",
+                    "type": "Knife",
+                    "state": "active"
+                },
+                "weapon_1": {
+                    "name": "weapon_awp",
+                    "paintkit": "cu_awp_viper",
+                    "type": "SniperRifle",
+                    "ammo_clip": 4,
+                    "ammo_clip_max": 5,
+                    "ammo_reserve": 30,
+                    "state": "holstered"
+                },
+                "weapon_2": {
+                    "name": "weapon_flashbang",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 2,
+                    "state": "holstered"
+                },
+                "weapon_3": {
+                    "name": "weapon_hegrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_4": {
+                    "name": "weapon_smokegrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_5": {
+                    "name": "weapon_fiveseven",
+                    "paintkit": "cu_fiveseven_retrobution",
+                    "type": "Pistol",
+                    "ammo_clip": 20,
+                    "ammo_clip_max": 20,
+                    "ammo_reserve": 100,
+                    "state": "holstered"
+                }
+            }
+        },
+        "76561199266867937": {
+            "clan": "TEAM XDM",
+            "name": "Dyin困告1337",
+            "observer_slot": 3,
+            "team": "CT",
+            "match_stats": {
+                "kills": 15,
+                "assists": 7,
+                "deaths": 17,
+                "mvps": 3,
+                "score": 37
+            },
+            "position": "-196.74, -287.48, -208.97",
+            "forward": "-0.37, 0.93, -0.01",
+            "state": {
+                "health": 100,
+                "armor": 100,
+                "helmet": true,
+                "defusekit": true,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 12600,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 5800
+            },
+            "weapons": {
+                "weapon_0": {
+                    "name": "weapon_knife_butterfly",
+                    "paintkit": "aa_fade",
+                    "type": "Knife",
+                    "state": "holstered"
+                },
+                "weapon_1": {
+                    "name": "weapon_usp_silencer",
+                    "paintkit": "cu_usp_printstream",
+                    "type": "Pistol",
+                    "ammo_clip": 12,
+                    "ammo_clip_max": 12,
+                    "ammo_reserve": 24,
+                    "state": "holstered"
+                },
+                "weapon_2": {
+                    "name": "weapon_m4a1_silencer",
+                    "paintkit": "cu_m4a1s_printstream",
+                    "type": "Rifle",
+                    "ammo_clip": 18,
+                    "ammo_clip_max": 20,
+                    "ammo_reserve": 80,
+                    "state": "active"
+                },
+                "weapon_3": {
+                    "name": "weapon_flashbang",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                }
+            }
+        },
+        "76561198065818020": {
+            "clan": "LSH",
+            "name": "莱圣",
+            "observer_slot": 5,
+            "team": "T",
+            "match_stats": {
+                "kills": 8,
+                "assists": 4,
+                "deaths": 25,
+                "mvps": 1,
+                "score": 22
+            },
+            "position": "-516.80, 483.23, -215.97",
+            "forward": "0.89, -0.43, -0.13",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 7200,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198330729329": {
+            "clan": "LSH",
+            "name": "Trash.^",
+            "observer_slot": 6,
+            "team": "T",
+            "match_stats": {
+                "kills": 16,
+                "assists": 8,
+                "deaths": 24,
+                "mvps": 3,
+                "score": 45
+            },
+            "position": "-516.80, 483.23, -215.97",
+            "forward": "0.89, -0.43, -0.13",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 6600,
+                "round_kills": 1,
+                "round_killhs": 1,
+                "round_totaldmg": 100,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198359731528": {
+            "clan": "LSH",
+            "name": "Nukovo",
+            "observer_slot": 7,
+            "team": "T",
+            "match_stats": {
+                "kills": 19,
+                "assists": 9,
+                "deaths": 20,
+                "mvps": 4,
+                "score": 47
+            },
+            "position": "-516.80, 483.23, -215.97",
+            "forward": "0.89, -0.43, -0.13",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 6900,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198383111397": {
+            "clan": "LSH",
+            "name": "抖音merci",
+            "observer_slot": 8,
+            "team": "T",
+            "match_stats": {
+                "kills": 23,
+                "assists": 7,
+                "deaths": 22,
+                "mvps": 2,
+                "score": 61
+            },
+            "position": "-516.80, 483.23, -215.97",
+            "forward": "-0.97, 0.22, -0.13",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 7300,
+                "round_kills": 1,
+                "round_killhs": 0,
+                "round_totaldmg": 103,
+                "equip_value": 5100
+            },
+            "weapons": {}
+        },
+        "76561199277904177": {
+            "clan": "LSH",
+            "name": "Suki272",
+            "observer_slot": 9,
+            "team": "T",
+            "match_stats": {
+                "kills": 22,
+                "assists": 2,
+                "deaths": 23,
+                "mvps": 3,
+                "score": 46
+            },
+            "position": "-516.80, 483.23, -215.97",
+            "forward": "0.89, -0.43, -0.13",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 3000,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561199126118595": {
+            "clan": "TEAM XDM",
+            "name": "douyin太刀之魂",
+            "observer_slot": 4,
+            "team": "CT",
+            "match_stats": {
+                "kills": 34,
+                "assists": 9,
+                "deaths": 20,
+                "mvps": 3,
+                "score": 86
+            },
+            "position": "-196.74, -287.48, -208.97",
+            "forward": "-0.74, -0.67, -0.01",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 13200,
+                "round_kills": 2,
+                "round_killhs": 1,
+                "round_totaldmg": 229,
+                "equip_value": 0
+            },
+            "weapons": {}
+        }
+    },
+    "auth": {
+        "token": "vspo"
+    }
+}

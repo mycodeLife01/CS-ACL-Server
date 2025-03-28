@@ -1,0 +1,115 @@
+/* 通用重置 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+/* 主容器采用两列布局，居中显示 */
+#app {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 左侧列：包含两个表单，垂直堆叠 */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    max-width: 400px;
+}
+
+/* 右侧列：用于显示 MVP 展示卡片 */
+.right-column {
+    flex: 1;
+    max-width: 400px;
+}
+
+/* 公用卡片样式 */
+.card {
+    background-color: #fff;
+    padding: 20px 30px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 卡片标题 */
+.card h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* 表单标签 */
+label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* 表单输入框 */
+select,
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 提交按钮 */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* MVP 卡片中的数据样式 */
+.mvp-card p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+}
+
+.mvp-card p strong {
+    color: #333;
+}
+
+/* Vue 过渡动画：淡入淡出效果 */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+  }  
+  
+/* 自定义 SweetAlert2 弹窗样式 */
+.custom-swal-popup {
+    /* 可以根据需要自定义弹窗样式 */
+}

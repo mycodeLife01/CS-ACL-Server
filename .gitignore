@@ -1,0 +1,70 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+.pipenv/
+.idea/
+.vscode/
+
+# Flask 缓存文件
+instance/
+*.db
+*.sqlite3
+
+# 安装包缓存
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 配置/临时文件
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+.DS_Store
+.env
+.env.*
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# MyPy / Pyre / Pytype 类型检查缓存
+.mypy_cache/
+.pytype/
+.pyre/
+
+# Test coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# 数据库迁移文件（可选忽略）
+migrations/
+
+# 如果你用的是gunicorn
+gunicorn.pid
+
+# 如果你用docker
+*.pid
+*.bak
+docker-compose.override.yml
+
+error.txt
+player_info
+./player_info
