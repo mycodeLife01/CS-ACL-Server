@@ -53,12 +53,12 @@
     },
     "teams": {
         "left": {
-            "fullname": "LSH",
-            "shortname": "LSH"
+            "fullname": "Natus Vincere",
+            "shortname": "NAVI"
         },
         "right": {
-            "fullname": "TEAM XDM",
-            "shortname": "XDM"
+            "fullname": "MOUZ",
+            "shortname": "MOUZ"
         }
     },
     "match_id": "1-0-627-3",

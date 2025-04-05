@@ -4,6 +4,7 @@ from datetime import datetime
 from models import *
 from sqlalchemy import and_
 from all_api import after_game_score
+from service import *
 import global_data
 import time
 import threading
@@ -85,9 +86,11 @@ def checkGlobalData():
         global_data.data["map"]["team_ct"]["name"],
         global_data.data["map"]["team_t"]["name"],
     }
-    if {left_team, right_team} != gsi_team_names:
-        print("配置文件队名输入有误！")
-        raise SystemExit
+    # if {left_team, right_team} != gsi_team_names:
+    #     print("配置文件队名输入有误！")
+    #     raise SystemExit
+    # print(global_data.data)
+    # time.sleep(5)
     current_round = global_data.data["map"]["round"]
     # 输出bomb状态，在当前回合内判断，若current_round!=global_data.round，则更新current_round后再取bomb状态
     if current_round == global_data.round:
@@ -253,7 +256,7 @@ def backgroundProcess():
         try:
             checkGlobalData()
             sendEventMsg()
-            store_real_time_data()
+            # store_real_time_data()
             # save_round_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
@@ -718,10 +721,25 @@ def store_real_time_data():
         session.close()
 
 
-if __name__ == "__main__":
-    myServer = server.GSIServer(("192.168.200.229", 3000), "vspo")
-    myServer.start_server()
+@app.route("/overallBoard")
+def overall_board():
+    board = get_overall_board()
+    if board:
+        return jsonify({"message": "success", "data": board, "code": 200})
+    return jsonify({"message": "error"})
 
+
+@app.route("/slideBar")
+def slide_bar():
+    bar = get_slide_bar()
+    if bar:
+        return jsonify({"message": "success", "data": bar, "code": 200})
+    return jsonify({"message": "error"})
+
+
+if __name__ == "__main__":
+    myServer = server.GSIServer(("192.168.1.5", 3000), "vspo")
+    myServer.start_server()
     initalizeRound()
     initializeSide()
     thread = threading.Thread(target=backgroundProcess)
