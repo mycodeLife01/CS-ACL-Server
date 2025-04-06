@@ -86,9 +86,9 @@ def checkGlobalData():
         global_data.data["map"]["team_ct"]["name"],
         global_data.data["map"]["team_t"]["name"],
     }
-    # if {left_team, right_team} != gsi_team_names:
-    #     print("配置文件队名输入有误！")
-    #     raise SystemExit
+    if {left_team, right_team} != gsi_team_names:
+        print("配置文件队名输入有误！")
+        raise SystemExit
     # print(global_data.data)
     # time.sleep(5)
     current_round = global_data.data["map"]["round"]
@@ -121,7 +121,11 @@ def checkGlobalData():
     current_round_wins_count = len(round_wins)
 
     if current_round_wins_count != round_wins_count and is_initalize:
-        latest_winner = list(round_wins.values())[-1]
+        round_result = list(round_wins.values())
+        if len(round_result) > 0:
+            latest_winner = round_result[-1]
+        else:
+            latest_winner = "n"
         if latest_winner[0] == "t":
             if team_t == left_team:
                 print(f"Team{team_t} won!!! Left")
@@ -129,7 +133,7 @@ def checkGlobalData():
             else:
                 print(f"Team{team_t} won!!! Right")
                 # requests.post(right_win)
-        else:
+        elif latest_winner[0] == "c":
             if team_ct == left_team:
                 print(f"Team{team_ct} won!!! Left")
                 # requests.post(left_win)
@@ -276,7 +280,7 @@ def allPlayerState():
             is_dead = 0 if player_data["state"]["health"] > 0 else 1
             res.append(
                 {
-                    "player_name": this_player_info["player_name"],
+                    "player_name": this_player_info["player_name"].upper(),
                     "team_name": this_player_info["team_name"],
                     "seat": this_player_info["player_seat"],
                     "K": this_player_data["kills"],
@@ -583,7 +587,8 @@ def store_real_time_data():
             # print(global_data.data["allplayers"])
             # time.sleep(10)
             in_game_name = data["name"]
-            if in_game_name == "hltv.org":
+            steam_ids_record = player_info["player"].keys()
+            if steam_id not in steam_ids_record:
                 continue
             player_name, team = (
                 session.query(PlayerList.player_name, PlayerList.team)
@@ -738,7 +743,7 @@ def slide_bar():
 
 
 if __name__ == "__main__":
-    myServer = server.GSIServer(("192.168.1.5", 3000), "vspo")
+    myServer = server.GSIServer(("127.0.0.1", 3000), "vspo")
     myServer.start_server()
     initalizeRound()
     initializeSide()

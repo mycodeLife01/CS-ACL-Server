@@ -1,0 +1,23 @@
+{
+    "code": 200,
+    "data": {
+        "left": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        "phase": "OVERTIME",
+        "right": [
+            1,
+            2,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "message": "success"
+}

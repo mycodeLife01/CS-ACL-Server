@@ -157,10 +157,12 @@ def get_slide_bar():
         current_round = gsi_data["map"]["round"]
 
         if not round_wins and current_round >= 24:
+            res_overtime["phase"] = "OVERTIME"
             return res_overtime
         if not round_wins and current_round == 0:
+            res_regulation["phase"] = "1ST HALF"
             return res_regulation
-        
+
         part_round_wins = []
         overtime = False
         sec_half = False
@@ -192,6 +194,8 @@ def get_slide_bar():
 
                 elif result == "ct_win_elimination":
                     res_regulation["left"][round_num - 1] = 2
+                elif result == "ct_win_time":
+                    res_regulation["left"][round_num - 1] = 3
 
             elif not overtime and sec_half:
                 if result == "t_win_bomb":
@@ -205,6 +209,8 @@ def get_slide_bar():
 
                 elif result == "ct_win_elimination":
                     res_regulation["left"][round_num - 13] = 2
+                elif result == "ct_win_time":
+                    res_regulation["left"][round_num - 13] = 3
 
             else:
                 if result == "t_win_bomb":
@@ -218,6 +224,8 @@ def get_slide_bar():
 
                 elif result == "ct_win_elimination":
                     res_overtime["left"][round_num - 1] = 2
+                elif result == "ct_win_time":
+                    res_overtime["left"][round_num - 1] = 3
 
         if not overtime:
             return res_regulation

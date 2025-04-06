@@ -1,0 +1,105 @@
+{
+    "data": [
+        {
+            "A": 0,
+            "D": 5,
+            "K": 3,
+            "KDA": "3/5/0",
+            "is_dead": 0,
+            "player_name": "magixx",
+            "seat": 1,
+            "team_name": "Team Spirit"
+        },
+        {
+            "A": 2,
+            "D": 4,
+            "K": 2,
+            "KDA": "2/4/2",
+            "is_dead": 0,
+            "player_name": "sh1ro",
+            "seat": 2,
+            "team_name": "Team Spirit"
+        },
+        {
+            "A": 0,
+            "D": 4,
+            "K": 5,
+            "KDA": "5/4/0",
+            "is_dead": 0,
+            "player_name": "chopper",
+            "seat": 3,
+            "team_name": "Team Spirit"
+        },
+        {
+            "A": 2,
+            "D": 6,
+            "K": 11,
+            "KDA": "11/6/2",
+            "is_dead": 0,
+            "player_name": "donk",
+            "seat": 4,
+            "team_name": "Team Spirit"
+        },
+        {
+            "A": 1,
+            "D": 3,
+            "K": 6,
+            "KDA": "6/3/1",
+            "is_dead": 0,
+            "player_name": "zont1x",
+            "seat": 5,
+            "team_name": "Team Spirit"
+        },
+        {
+            "A": 1,
+            "D": 7,
+            "K": 3,
+            "KDA": "3/7/1",
+            "is_dead": 0,
+            "player_name": "cej0t",
+            "seat": 6,
+            "team_name": "SAW"
+        },
+        {
+            "A": 2,
+            "D": 5,
+            "K": 3,
+            "KDA": "3/5/2",
+            "is_dead": 0,
+            "player_name": "AZUWU",
+            "seat": 7,
+            "team_name": "SAW"
+        },
+        {
+            "A": 0,
+            "D": 5,
+            "K": 8,
+            "KDA": "8/5/0",
+            "is_dead": 0,
+            "player_name": "MUTiRiS",
+            "seat": 8,
+            "team_name": "SAW"
+        },
+        {
+            "A": 0,
+            "D": 4,
+            "K": 6,
+            "KDA": "6/4/0",
+            "is_dead": 0,
+            "player_name": "story",
+            "seat": 9,
+            "team_name": "SAW"
+        },
+        {
+            "A": 3,
+            "D": 6,
+            "K": 2,
+            "KDA": "2/6/3",
+            "is_dead": 0,
+            "player_name": "ag1l",
+            "seat": 10,
+            "team_name": "SAW"
+        }
+    ],
+    "msg": "succeed"
+}
