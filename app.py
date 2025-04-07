@@ -202,20 +202,20 @@ def sendEventMsg():
         and round != 12
     ):
         print("播放暂停音乐")
-        requests.post(paused_bgm_url)
+        # requests.post(paused_bgm_url)
     elif phase_flag == "over" and round == 12 and phase_flag != last_phase:
         print("播放半场暂停音乐")
-        requests.post(halfgame_bgm_url)
+        # requests.post(halfgame_bgm_url)
     # elif phase_flag == 'freezetime' and last_phase in ("timeout_ct", "timeout_t", "paused"):
     #     print('播放暂停音乐')
     # elif phase_flag == 'freezetime' and last_phase in ("timeout_ct", "timeout_t", "paused") and seconds in ("3.9","3.8","3.7","3.6","3.5","3.4","3.3","3.2","3.1","3.0"):
     #     print('关闭暂停音乐')
     elif phase_flag == "live" and last_phase == "freezetime":
         print("关闭暂停音乐")
-        requests.post(turnoff_bgm_url)
+        # requests.post(turnoff_bgm_url)
     elif map_phase == "gameover" and over_count == 0:
         print("播放结束音乐")
-        requests.post(win_bgm_url)
+        # requests.post(win_bgm_url)
         # print(over_count)
         over_count += 1
     elif phase_flag == "live":
@@ -259,6 +259,7 @@ def backgroundProcess():
     while True:
         try:
             checkGlobalData()
+            check_timeout()
             sendEventMsg()
             # store_real_time_data()
             # save_round_data()
@@ -268,7 +269,7 @@ def backgroundProcess():
 
 @app.route("/allPlayerState")
 def allPlayerState():
-    res = []
+    res = {"players": [], "timeout_team": "", "boom": 0}
     try:
         all_players_data = global_data.data["allplayers"]
         for key, player_data in all_players_data.items():
@@ -278,7 +279,7 @@ def allPlayerState():
             this_player_data = player_data["match_stats"]
             # 判断选手是否存活
             is_dead = 0 if player_data["state"]["health"] > 0 else 1
-            res.append(
+            res["players"].append(
                 {
                     "player_name": this_player_info["player_name"].upper(),
                     "team_name": this_player_info["team_name"],
@@ -294,8 +295,31 @@ def allPlayerState():
                     "is_dead": is_dead,
                 }
             )
-        res.sort(key=lambda a: a["seat"])
+        side = None
+        phase = global_data.data["phase_countdowns"]["phase"]
+
+        if phase == "timeout_ct":
+            side = "team_ct"
+        elif phase == "timeout_t":
+            side = "team_t"
+
+        if side:
+            # res["timeout_team"] = global_data.data["map"][side]["name"]
+            team = global_data.data["map"][side]["name"]
+            teams_config = list(player_info["teams"].values())
+            res["timeout_team"] = next(
+                (t["shortname"] for t in teams_config if t["fullname"] == team)
+            )
+        else:
+            res["timeout_team"] = ""
+
+        boom = 0
+        if 'bomb' in global_data.data and global_data.data['bomb']['state'] == 'exploded':
+            boom = 1
+        res["boom"] = boom
+        res["players"].sort(key=lambda a: a["seat"])
         return jsonify({"msg": "succeed", "data": res})
+    
     except Exception as e:
         print(f"发生错误：{e}")
         return jsonify({"msg": "Error...", "data": []})
@@ -331,14 +355,20 @@ ct_wins_firsthalf = 0
 
 
 def initializeSide():
-    global side_initialized, t_name_firsthalf, ct_name_firsthalf
+    global side_initialized, t_name_firsthalf, ct_name_firsthalf, t_wins_firsthalf, ct_wins_firsthalf
     round = global_data.data["map"]["round"]
-    if not side_initialized and round <= 12:
-        ct_name_firsthalf = global_data.data["map"]["team_ct"]["name"]
-        t_name_firsthalf = global_data.data["map"]["team_t"]["name"]
-    elif not side_initialized and round > 12:
-        ct_name_firsthalf = global_data.data["map"]["team_t"]["name"]
-        t_name_firsthalf = global_data.data["map"]["team_ct"]["name"]
+    if not side_initialized and round >= 12:
+        round_wins_values = list(global_data.data["map"]["round_wins"].values())
+        t_wins, ct_wins = 0, 0
+        for result in round_wins_values[0:12]:
+            if result[0] == "c":
+                ct_wins += 1
+            else:
+                t_wins += 1
+            t_wins_firsthalf = t_wins
+            ct_wins_firsthalf = ct_wins
+    ct_name_firsthalf = global_data.data["map"]["team_ct"]["name"]
+    t_name_firsthalf = global_data.data["map"]["team_t"]["name"]
     side_initialized = True
 
 
@@ -724,6 +754,21 @@ def store_real_time_data():
         logging.error(f"保存信息到数据库时发生错误: {e}", exc_info=True)
     finally:
         session.close()
+
+
+timeout_url = ""
+timeout_flag = True
+
+
+def check_timeout() -> None:
+    global timeout_flag
+    phase = global_data.data["phase_countdowns"]["phase"]
+    if phase in ("timeout_ct", "timeout_t") and timeout_flag:
+        print("--------------------Timout--------------------")
+        # requests.post(timeout_url)
+        timeout_flag = False
+    elif phase not in ("timeout_ct", "timeout_t") and not timeout_flag:
+        timeout_flag = True
 
 
 @app.route("/overallBoard")
