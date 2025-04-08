@@ -5,6 +5,8 @@ from models import *
 from sqlalchemy import and_
 from all_api import after_game_score
 from service import *
+from functools import reduce
+from operator import add
 import global_data
 import time
 import threading
@@ -261,6 +263,7 @@ def backgroundProcess():
             checkGlobalData()
             check_timeout()
             sendEventMsg()
+            store_round_data()
             # store_real_time_data()
             # save_round_data()
         except Exception as e:
@@ -314,12 +317,15 @@ def allPlayerState():
             res["timeout_team"] = ""
 
         boom = 0
-        if 'bomb' in global_data.data and global_data.data['bomb']['state'] == 'exploded':
+        if (
+            "bomb" in global_data.data
+            and global_data.data["bomb"]["state"] == "exploded"
+        ):
             boom = 1
         res["boom"] = boom
         res["players"].sort(key=lambda a: a["seat"])
         return jsonify({"msg": "succeed", "data": res})
-    
+
     except Exception as e:
         print(f"发生错误：{e}")
         return jsonify({"msg": "Error...", "data": []})
@@ -420,11 +426,40 @@ def real_time_score():
             else:
                 left_score = t_wins - t_wins_firsthalf + ct_wins_firsthalf
                 right_score = ct_wins - ct_wins_firsthalf + t_wins_firsthalf
+
+            left_team_player_info = []
+            right_team_player_info = []
+            t_fullname = global_data.data["map"]["team_t"]["name"]
+            ct_fullname = global_data.data["map"]["team_ct"]["name"]
+            match_id = player_info["match_id"]
+
+            for player_data in global_data.data["allplayers"].values():
+                side = player_data["team"]  # t/ct
+                match_stats = player_data["match_stats"]
+                data = {
+                    "player_name": player_data["name"],
+                    "kills": match_stats["kills"],
+                    "deaths": match_stats["deaths"],
+                    "assists": match_stats["assists"],
+                    "adr": int(get_players_adr(match_id)[player_data["name"]]),
+                }
+                print(data)
+                if (side == "T" and t_fullname == left_team) or (
+                    side == "CT" and ct_fullname == left_team
+                ):
+                    left_team_player_info.append(data)
+                elif (side == "T" and t_fullname == right_team) or (
+                    side == "CT" and ct_fullname == right_team
+                ):
+                    right_team_player_info.append(data)
+
             res = {
                 "left": left_score,
                 "right": right_score,
                 "left_team": left_team_short,
                 "right_team": right_team_short,
+                "left_team_info": left_team_player_info,
+                "right_team_info": right_team_player_info,
             }
         else:
             res = {
@@ -432,10 +467,45 @@ def real_time_score():
                 "right": 0,
                 "left_team": left_team_short,
                 "right_team": right_team_short,
+                "left_team_info": [],
+                "right_team_info": [],
             }
         return res
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+        return None
+
+
+def get_players_adr(match_id):
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
+    res = {}
+    try:
+        all_players = [
+            p[0]
+            for p in session.query(DataRound.player_name)
+            .filter(DataRound.match_id == match_id)
+            .distinct()
+            .all()
+        ]
+        round_count = (
+            session.query(DataRound.round).order_by(DataRound.round.desc()).limit(1).scalar()
+        )
+        for player in all_players:
+            dmg_list = [
+                item[0]
+                for item in session.query(DataRound.round_totaldmg)
+                .filter(
+                    and_(
+                        DataRound.player_name == player, DataRound.match_id == match_id
+                    )
+                )
+                .all()
+            ]
+            res[player] = reduce(add, dmg_list) / round_count
+        return res
+    except Exception as e:
+        logging.error(f"获取比赛基本信息错误: {e}", exc_info=True)
         return None
 
 
@@ -769,6 +839,56 @@ def check_timeout() -> None:
         timeout_flag = False
     elif phase not in ("timeout_ct", "timeout_t") and not timeout_flag:
         timeout_flag = True
+
+
+def store_round_data():
+    global round_data_stored
+    gsi = global_data.data
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
+    round = gsi["map"]["round"]
+    match_id = player_info["match_id"]
+    count = (
+        session.query(DataRound)
+        .filter(and_(DataRound.round == round, DataRound.match_id == match_id))
+        .count()
+    )
+
+    phase = gsi["phase_countdowns"]["phase"]
+
+    if phase == "over" and count < 10:
+        try:
+            player_stats = [
+                {
+                    "steam_id": steam_id,
+                    "player_name": p["name"],
+                    "round_kills": p["state"]["round_kills"],
+                    "round_killhs": p["state"]["round_killhs"],
+                    "round_totaldmg": p["state"]["round_totaldmg"],
+                }
+                for steam_id, p in list(gsi["allplayers"].items())
+            ]
+
+            for player in player_stats:
+                data_round = DataRound(
+                    steam_id=player["steam_id"],
+                    player_name=player["player_name"],
+                    round_kills=player["round_kills"],
+                    round_killhs=player["round_killhs"],
+                    round_totaldmg=player["round_totaldmg"],
+                    round=round,
+                    match_id=match_id,
+                )
+                session.add(data_round)
+
+        except Exception as e:
+            logging.error(f"保存round data到数据库时发生错误: {e}", exc_info=True)
+            session.rollback()
+            session.close()
+        finally:
+            logging.info(f"round{round}数据保存成功！")
+            session.commit()
+            session.close()
 
 
 @app.route("/overallBoard")

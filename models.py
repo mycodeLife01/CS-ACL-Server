@@ -121,6 +121,7 @@ class DataGame(Base):
         onupdate=func.now(),
         comment="更新时间，默认当前时间",
     )
+    match_id = Column(String(255), nullable=False)
 
 
 class Schedule(Base):
@@ -173,6 +174,17 @@ class RealTimePlayer(Base):
     assists = Column(Integer, nullable=False)
     # damage = Column(Integer, nullable=False)
     team = Column(String(255), nullable=False)
+
+
+class DataRound(Base):
+    __tablename__ = "data_round"
+    steam_id = Column(String(255), primary_key=True)
+    player_name = Column(String(255), nullable=False)
+    round_kills = Column(Integer, nullable=False)
+    round_killhs = Column(Integer, nullable=False)
+    round_totaldmg = Column(Integer, nullable=False)
+    round = Column(Integer, primary_key=True)
+    match_id = Column(String(255), primary_key=True)
 
 
 # Base.metadata.create_all(ENGINELocal)

@@ -76,6 +76,8 @@ def scores_aftergame():
 
 
 def after_game_score():
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
     try:
         aftergame_data = readJsonFile("gsi_data.json")
         ct_data = aftergame_data["map"]["team_ct"]
@@ -92,6 +94,10 @@ def after_game_score():
         else:
             res["left"] = t_data["score"]
             res["right"] = ct_data["score"]
+        
+        match_id = player_info['match_id']
+        match_data = session.query(DataGame).filter(DataGame.match_id==match_id).all()
+        left_team
         # res = {
         #     "left_team": 'FDG',
         #     "right_team": 'LSH',
