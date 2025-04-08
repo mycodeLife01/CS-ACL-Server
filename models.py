@@ -75,6 +75,7 @@ class GameList(Base):
     team1 = Column(String(255))
     team2 = Column(String(255))
     win_team = Column(String(255))
+    match_id = Column(String(255), nullable=False)
 
 
 class PlayerList(Base):
@@ -85,6 +86,7 @@ class PlayerList(Base):
     nickname = Column(String(255), nullable=False, comment="游戏内名称")
     team = Column(String(255), nullable=False)
     starter = Column(Integer, nullable=False)
+    offline = Column(Integer, nullable=False)
     # create_time = Column(DateTime, nullable=False, server_default=func.now(), comment="创建时间，默认当前时间")
     # update_time = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now(), comment="更新时间，默认当前时间")
 
@@ -185,6 +187,31 @@ class DataRound(Base):
     round_totaldmg = Column(Integer, nullable=False)
     round = Column(Integer, primary_key=True)
     match_id = Column(String(255), primary_key=True)
+
+
+class PlayerOffline(Base):
+    __tablename__ = "player_offline"
+    steam_id = Column(String(255), primary_key=True)
+    char_name = Column(String(255), nullable=False)
+    position = Column(String(255), nullable=False)
+    starter = Column(Integer, nullable=False)
+    team_id = Column(String(255), nullable=False)
+    profile_photo = Column(String(255), nullable=False)
+    region = Column(String(255), nullable=False)
+    create_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        comment="创建时间，默认当前时间",
+    )
+    update_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
+        comment="更新时间，默认当前时间",
+    )
+    delete = Column(Integer, nullable=False)
 
 
 # Base.metadata.create_all(ENGINELocal)

@@ -264,7 +264,7 @@ def backgroundProcess():
             check_timeout()
             sendEventMsg()
             store_round_data()
-            # store_real_time_data()
+            store_real_time_data()
             # save_round_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
@@ -317,12 +317,19 @@ def allPlayerState():
             res["timeout_team"] = ""
 
         boom = 0
+        defusing = 0
         if (
             "bomb" in global_data.data
             and global_data.data["bomb"]["state"] == "exploded"
         ):
             boom = 1
+        elif (
+            "bomb" in global_data.data
+            and global_data.data["bomb"]["state"] == "defusing"
+        ):
+            defusing = 1
         res["boom"] = boom
+        res["defusing"] = defusing
         res["players"].sort(key=lambda a: a["seat"])
         return jsonify({"msg": "succeed", "data": res})
 
@@ -436,14 +443,15 @@ def real_time_score():
             for player_data in global_data.data["allplayers"].values():
                 side = player_data["team"]  # t/ct
                 match_stats = player_data["match_stats"]
+                adr_dict = get_players_adr(match_id)
+                adr = int(adr_dict[player_data["name"]]) if adr_dict is not None else 0
                 data = {
                     "player_name": player_data["name"],
                     "kills": match_stats["kills"],
                     "deaths": match_stats["deaths"],
                     "assists": match_stats["assists"],
-                    "adr": int(get_players_adr(match_id)[player_data["name"]]),
+                    "adr": adr,
                 }
-                print(data)
                 if (side == "T" and t_fullname == left_team) or (
                     side == "CT" and ct_fullname == left_team
                 ):
@@ -470,6 +478,7 @@ def real_time_score():
                 "left_team_info": [],
                 "right_team_info": [],
             }
+        print(res)
         return res
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
@@ -489,7 +498,10 @@ def get_players_adr(match_id):
             .all()
         ]
         round_count = (
-            session.query(DataRound.round).order_by(DataRound.round.desc()).limit(1).scalar()
+            session.query(DataRound.round)
+            .order_by(DataRound.round.desc())
+            .limit(1)
+            .scalar()
         )
         for player in all_players:
             dmg_list = [
@@ -692,7 +704,7 @@ def store_real_time_data():
                 continue
             player_name, team = (
                 session.query(PlayerList.player_name, PlayerList.team)
-                .filter(PlayerList.nickname == in_game_name)
+                .filter(PlayerList.nickname == in_game_name, PlayerList.offline == 1)
                 .first()
             )
             # print(player_name)

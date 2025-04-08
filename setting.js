@@ -83,6 +83,7 @@ const { createApp, ref, reactive, onMounted } = Vue;
         const submitMatchData = () => {
           const formData = new URLSearchParams();
           formData.append('match_code', matchData.match_code);
+          formData.append('match_id', matchData.match_id);
           formData.append('match_week', matchData.match_week);
           formData.append('match_day', matchData.match_day);
           formData.append('match_num', matchData.match_num);

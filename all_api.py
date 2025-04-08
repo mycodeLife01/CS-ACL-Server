@@ -76,8 +76,6 @@ def scores_aftergame():
 
 
 def after_game_score():
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
     try:
         aftergame_data = readJsonFile("gsi_data.json")
         ct_data = aftergame_data["map"]["team_ct"]
@@ -94,10 +92,7 @@ def after_game_score():
         else:
             res["left"] = t_data["score"]
             res["right"] = ct_data["score"]
-        
-        match_id = player_info['match_id']
-        match_data = session.query(DataGame).filter(DataGame.match_id==match_id).all()
-        left_team
+
         # res = {
         #     "left_team": 'FDG',
         #     "right_team": 'LSH',
@@ -108,6 +103,105 @@ def after_game_score():
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
         return None
+
+
+def get_aftergame_board():
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
+    res = {}
+    try:
+        match_id = player_info["match_id"]
+        match_data = session.query(DataGame).filter(DataGame.match_id == match_id).all()
+        player_team_dict = {
+            name.split("_")[1]: team
+            for name, team in session.query(
+                PlayerOffline.char_name, PlayerOffline.team_id
+            ).all()
+        }
+        # print(player_team_dict)
+        left_team_info = []
+        right_team_info = []
+        for each_player in match_data:
+            name = each_player.player_name
+            team = player_team_dict[name]
+            data = {
+                "player_name": each_player.player_name,
+                "kills": each_player.kills,
+                "deaths": each_player.deaths,
+                "assists": each_player.assists,
+                "adr": each_player.adr,
+            }
+            if team == left_team_short:
+                left_team_info.append(data)
+            else:
+                right_team_info.append(data)
+        res["left_team_info"] = left_team_info
+        res["right_team_info"] = right_team_info
+        return res
+    except Exception as e:
+        print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+    finally:
+        session.close()
+
+
+def get_aftergame_slide_bar():
+    try:
+        aftergame_data = readJsonFile("gsi_data.json")
+        round_results = list(aftergame_data["map"]["round_wins"].values())
+        n = len(round_results)
+        top = [0] * n
+        bottom = [0] * n
+        for i in range(n):
+            result = round_results[i]
+            if (i <= 11) or (i >= 24 and i % 2 == 0):
+                if result == "t_win_bomb":
+                    top[i] = 1
+                elif result == "t_win_elimination":
+                    top[i] = 2
+                elif result == "ct_win_defuse":
+                    bottom[i] = 1
+                elif result == "ct_win_elimination":
+                    bottom[i] = 2
+                elif result == "ct_win_time":
+                    bottom[i] = 3
+            elif (i >= 12 and i <= 23) or (i >= 24 and i % 2 != 0):
+                if result == "t_win_bomb":
+                    bottom[i] = 1
+                elif result == "t_win_elimination":
+                    bottom[i] = 2
+                elif result == "ct_win_defuse":
+                    top[i] = 1
+                elif result == "ct_win_elimination":
+                    top[i] = 2
+                elif result == "ct_win_time":
+                    top[i] = 3
+        if n > 24:
+            top = top[0:23]
+            bottom = bottom[0:23]
+
+        return {"top": top, "bottom": bottom}
+    except Exception as e:
+        print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+
+
+@app.route("/aftergameBoard")
+def aftergameBoard():
+    try:
+        data = get_aftergame_board()
+        return jsonify({"msg": "请求成功", "data": data})
+    except Exception as e:
+        print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+        return jsonify({"msg": "error"})
+
+
+@app.route("/aftergameSlideBar")
+def aftergame_slide_bar():
+    try:
+        data = get_aftergame_slide_bar()
+        return jsonify({"msg": "请求成功", "data": data})
+    except Exception as e:
+        print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+        return jsonify({"msg": "error"})
 
 
 def parse_scoreboard():
@@ -267,6 +361,9 @@ def mvp():
         #     "deaths": 12,
         #     "assists": 6,
         #     "adr": 111,
+        #     "headshotratio": "50%",
+        #     "opening dules": 5,
+        #     "muitikills": 8,
         # }
         mvp_info = {
             "player_name": name,
@@ -276,7 +373,7 @@ def mvp():
             "assists": mvp.assists,
             "headshotratio": float(mvp.headshotratio),
             "adr": mvp.adr,
-            "firstkill": mvp.firstkill,
+            "opening dules": mvp.firstkill,
             "firstdeath": mvp.firstdeath,
             "sniperkills": mvp.sniperkills,
             "muitikills": mvp.muitikills,
@@ -342,7 +439,7 @@ def saveMatchData():
 
     # 从请求参数中获取 match_code，match_week, match_day, match_num, type, series
     match_code = request.form.get("match_code")
-
+    match_id = request.form.get("match_id")
     if not match_code:
         return jsonify({"error": "缺少 match_code 参数"}), 400
 
@@ -426,12 +523,13 @@ def saveMatchData():
             utilitydmg=utilitydmg,
             kast=kast,
             rating=rating,
+            match_id=match_id,
         )
         # 使用 merge 可在记录已存在时进行更新，否则插入新记录
         session.merge(data_game)
-        session.query(PlayerList).filter(PlayerList.steam_id == steamid).update(
-            {PlayerList.nickname: nickname}
-        )
+        # session.query(PlayerList).filter(PlayerList.steam_id == steamid).update(
+        #     {PlayerList.nickname: nickname}
+        # )
     # 根据5e数据更新player_list
 
     # 记录本场比赛
@@ -461,6 +559,7 @@ def saveMatchData():
 
     game = GameList(
         match_code=match_code,
+        match_id=match_id,
         match_week=match_week,
         match_day=match_day,
         match_num=match_num,

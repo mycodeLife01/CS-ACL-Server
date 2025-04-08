@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561199063238565": {
-            "player_name": "magixx",
-            "team_name": "Team Spirit",
+        "76561199194989046": {
+            "player_name": "left1",
+            "team_name": "LeftTeam",
             "player_seat": 1
         },
-        "76561198081484775": {
-            "player_name": "sh1ro",
-            "team_name": "Team Spirit",
+        "76561198408318094": {
+            "player_name": "left2",
+            "team_name": "LeftTeam",
             "player_seat": 2
         },
-        "76561198045898864": {
-            "player_name": "chopper",
-            "team_name": "Team Spirit",
+        "76561198362991943": {
+            "player_name": "left3",
+            "team_name": "LeftTeam",
             "player_seat": 3
         },
-        "76561198386265483": {
-            "player_name": "donk",
-            "team_name": "Team Spirit",
+        "76561199841783690": {
+            "player_name": "left4",
+            "team_name": "LeftTeam",
             "player_seat": 4
         },
-        "76561198995880877": {
-            "player_name": "zont1x",
-            "team_name": "Team Spirit",
+        "76561199075719135": {
+            "player_name": "left5",
+            "team_name": "LeftTeam",
             "player_seat": 5
         },
-        "76561198080449500": {
-            "player_name": "cej0t",
-            "team_name": "SAW",
+        "76561199193165120": {
+            "player_name": "right1",
+            "team_name": "RightTeam",
             "player_seat": 6
         },
-        "76561198974494129": {
-            "player_name": "AZUWU",
-            "team_name": "SAW",
+        "76561198101370622": {
+            "player_name": "right2",
+            "team_name": "RightTeam",
             "player_seat": 7
         },
-        "76561197997981170": {
-            "player_name": "MUTiRiS",
-            "team_name": "SAW",
+        "76561199388060305": {
+            "player_name": "right3",
+            "team_name": "RightTeam",
             "player_seat": 8
         },
-        "76561198065448360": {
-            "player_name": "story",
-            "team_name": "SAW",
+        "76561199086334127": {
+            "player_name": "right4",
+            "team_name": "RightTeam",
             "player_seat": 9
         },
-        "76561198186878873": {
-            "player_name": "ag1l",
-            "team_name": "SAW",
+        "76561199060428268": {
+            "player_name": "right5",
+            "team_name": "RightTeam",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "Team Spirit",
-            "shortname": "TS"
+            "fullname": "",
+            "shortname": "FHG"
         },
         "right": {
-            "fullname": "SAW",
-            "shortname": "SAW"
+            "fullname": "",
+            "shortname": "EXU"
         }
     },
     "match_id": "1-5-1-1",
-    "schedule_id": "",
-    "is_over": ""
+    "schedule_id": "1-5-1",
+    "is_over": "0"
 }
