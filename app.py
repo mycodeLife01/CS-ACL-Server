@@ -5,7 +5,7 @@ from models import *
 from sqlalchemy import and_
 from all_api import after_game_score
 from service import *
-from functools import reduce
+from functools import reduce, lru_cache
 from operator import add
 import global_data
 import time
@@ -263,7 +263,7 @@ def backgroundProcess():
             checkGlobalData()
             sendEventMsg()
             store_round_data()
-            store_real_time_data()
+            # store_real_time_data()
             # save_round_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
@@ -271,7 +271,7 @@ def backgroundProcess():
 
 @app.route("/allPlayerState")
 def allPlayerState():
-    res = {"players": [], "timeout_team": "", "boom": 0}
+    res = {"players": [], "left_team_timeout": 0, "right_team_timeout": 0, "boom": 0}
     try:
         all_players_data = global_data.data["allplayers"]
         for key, player_data in all_players_data.items():
@@ -286,7 +286,7 @@ def allPlayerState():
             is_dead = 0 if player_data["state"]["health"] > 0 else 1
             res["players"].append(
                 {
-                    "player_name": this_player_info["player_name"].upper(),
+                    "player_name": this_player_info["player_name"],
                     "player_name_with_team": this_player_info["team_name"]
                     + "_"
                     + this_player_info["player_name"].upper(),
@@ -315,11 +315,16 @@ def allPlayerState():
             # res["timeout_team"] = global_data.data["map"][side]["name"]
             team = global_data.data["map"][side]["name"]
             teams_config = list(player_info["teams"].values())
-            res["timeout_team"] = next(
+            # res["timeout_team"] = next(
+            #     (t["shortname"] for t in teams_config if t["fullname"] == team)
+            # )
+            timeout_team_name = next(
                 (t["shortname"] for t in teams_config if t["fullname"] == team)
             )
-        else:
-            res["timeout_team"] = ""
+            if timeout_team_name == left_team:
+                res["left_team_timeout"] = 1
+            else:
+                res["right_team_timeout"] = 1
 
         boom = 0
         planting = 0
@@ -489,8 +494,7 @@ def real_time_score():
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
         return None
 
-
-def get_players_adr(match_id):
+    # def get_players_adr(match_id):
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
     res = {}
@@ -510,6 +514,15 @@ def get_players_adr(match_id):
         )
         if (all_players == [] or all_players is None) or round_count is None:
             return None
+
+        # dmg_list = [
+        #         (item[0], item[1])
+        #         for item in session.query(DataRound.player_name, DataRound.round_totaldmg)
+        #         .filter(
+        #             DataRound.match_id == match_id
+        #         )
+        #         .all()
+        #     ]
         for player in all_players:
             dmg_list = [
                 item[0]
@@ -526,6 +539,38 @@ def get_players_adr(match_id):
     except Exception as e:
         logging.error(f"获取比赛基本信息错误: {e}", exc_info=True)
         return None
+
+
+def get_players_adr(match_id):
+    try:
+        Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+        session = Session()
+        round_count = (
+            session.query(func.max(DataRound.round))
+            .filter(DataRound.match_id == match_id)
+            .scalar()
+        )
+        if not round_count:
+            return None
+        player_adr_dict = {
+            player_name: total_dmg / round_count
+            for player_name, total_dmg in session.query(
+                DataRound.player_name,
+                func.sum(DataRound.round_totaldmg).label("total_dmg"),
+            )
+            .filter(DataRound.match_id == match_id)
+            .group_by(DataRound.player_name)
+            .all()
+        }
+        return player_adr_dict
+    except Exception as e:
+        logging.error(f"处理adr时发生错误{e}", exc_info=True)
+        return None
+
+
+@lru_cache(maxsize=32)
+def get_players_adr_cached(match_id):
+    return get_players_adr(match_id)
 
 
 @app.route("/scores")

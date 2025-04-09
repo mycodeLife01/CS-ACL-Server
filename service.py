@@ -19,14 +19,27 @@ def get_overall_board() -> dict:
             timeout_all = 1
         ct_timeout_used = timeout_all - gsi_data["map"]["team_ct"]["timeouts_remaining"]
         t_timeout_used = timeout_all - gsi_data["map"]["team_t"]["timeouts_remaining"]
+        ct_consecutive_round_losses = gsi_data["map"]["team_ct"][
+            "consecutive_round_losses"
+        ]
+        t_consecutive_round_losses = gsi_data["map"]["team_t"][
+            "consecutive_round_losses"
+        ]
 
+        gsi_data["map"]["team_t"]["consecutive_round_losses"]
+        
         loss_bonus_dict = {0: 1400, 1: 1900, 2: 2400, 3: 2900, 4: 3400}
-        ct_loss_bonus = loss_bonus_dict[
-            gsi_data["map"]["team_ct"]["consecutive_round_losses"]
-        ]
-        t_loss_bonus = loss_bonus_dict[
-            gsi_data["map"]["team_t"]["consecutive_round_losses"]
-        ]
+
+        ct_loss_bonus = (
+            loss_bonus_dict[ct_consecutive_round_losses]
+            if ct_consecutive_round_losses <= 4
+            else 3400
+        )
+        t_loss_bonus = (
+            loss_bonus_dict[t_consecutive_round_losses]
+            if t_consecutive_round_losses <= 4
+            else 3400
+        )
 
         ct_equip_value = sum(
             [
@@ -64,7 +77,7 @@ def get_overall_board() -> dict:
             weapons = {}
             # 遍历武器并分类
             for weapon in player["weapons"].values():
-                if weapon.get("type", '') in [
+                if weapon.get("type", "") in [
                     "Knife",
                     "Pistol",
                     "Rifle",
@@ -74,11 +87,11 @@ def get_overall_board() -> dict:
                     "Shotgun",
                 ]:
                     weapons[weapon["type"]] = weapon["name"]
-                elif weapon.get('type', '') == "Grenade":
+                elif weapon.get("type", "") == "Grenade":
                     grenade_list = weapons.get("Grenade", [])
                     grenade_list.append(weapon["name"])
                     weapons["Grenade"] = grenade_list
-                
+
             # 根据武器类型优先级选择 weapon_show
             weapon_show = None
             for weapon_type in [

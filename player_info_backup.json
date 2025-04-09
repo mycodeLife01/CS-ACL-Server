@@ -53,15 +53,15 @@
     },
     "teams": {
         "left": {
-            "fullname": "Team Spirit",
-            "shortname": "TS"
+            "fullname": "CTG",
+            "shortname": "CTG"
         },
         "right": {
-            "fullname": "SAW",
-            "shortname": "SAW"
+            "fullname": "DK",
+            "shortname": "DK"
         }
     },
-    "match_id": "99",
-    "schedule_id": "99",
+    "match_id": "1-5-4-1",
+    "schedule_id": "1-5-4",
     "is_over": "0"
 }

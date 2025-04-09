@@ -4,49 +4,46 @@
         "appid": 730,
         "version": 14074,
         "steamid": "76561198849917219",
-        "timestamp": 1744182285
+        "timestamp": 1744198102
     },
     "phase_countdowns": {
         "phase": "freezetime",
-        "phase_ends_in": "-20.8"
+        "phase_ends_in": "-20.1"
     },
     "map": {
         "round_wins": {
             "1": "t_win_elimination",
-            "2": "t_win_elimination",
-            "3": "ct_win_defuse",
-            "4": "ct_win_elimination",
+            "2": "ct_win_elimination",
+            "3": "ct_win_elimination",
+            "4": "t_win_elimination",
             "5": "t_win_elimination",
-            "6": "ct_win_elimination",
-            "7": "t_win_elimination",
+            "6": "t_win_elimination",
+            "7": "ct_win_elimination",
             "8": "t_win_elimination",
-            "9": "t_win_elimination",
+            "9": "ct_win_elimination",
             "10": "t_win_elimination",
-            "11": "ct_win_elimination",
-            "12": "ct_win_elimination",
-            "13": "t_win_bomb",
-            "14": "t_win_bomb",
+            "11": "t_win_elimination",
+            "12": "t_win_elimination",
+            "13": "ct_win_elimination",
+            "14": "ct_win_elimination",
             "15": "ct_win_elimination",
             "16": "ct_win_elimination",
-            "17": "ct_win_elimination",
-            "18": "ct_win_elimination",
-            "19": "ct_win_defuse",
-            "20": "ct_win_elimination"
+            "17": "ct_win_elimination"
         },
         "mode": "competitive",
-        "name": "de_inferno",
+        "name": "de_anubis",
         "phase": "gameover",
-        "round": 20,
+        "round": 17,
         "team_ct": {
             "score": 13,
-            "name": "FHG",
+            "name": "DK",
             "consecutive_round_losses": 0,
-            "timeouts_remaining": 1,
+            "timeouts_remaining": 2,
             "matches_won_this_series": 0
         },
         "team_t": {
-            "score": 7,
-            "name": "EXU",
+            "score": 4,
+            "name": "CTG",
             "consecutive_round_losses": 6,
             "timeouts_remaining": 1,
             "matches_won_this_series": 0
@@ -59,29 +56,29 @@
     },
     "bomb": {
         "state": "dropped",
-        "position": "-818.16, 574.84, 14.62"
+        "position": "-211.19, -1575.16, 20.62"
     },
     "player": {
         "match_stats": {
-            "kills": 15,
+            "kills": 10,
             "assists": 1,
-            "deaths": 12,
-            "mvps": 4,
-            "score": 35
+            "deaths": 6,
+            "mvps": 5,
+            "score": 18
         },
-        "spectarget": "76561198254639518",
-        "position": "-167.79, 861.64, 41.06",
-        "forward": "-0.91, -0.40, -0.12",
+        "spectarget": "76561199141263046",
+        "position": "-732.31, 2265.03, 4.02",
+        "forward": "0.98, 0.18, 0.01",
         "weapons": {
             "weapon_0": {
-                "name": "weapon_knife_butterfly",
-                "paintkit": "default",
+                "name": "weapon_knife_m9_bayonet",
+                "paintkit": "aa_fade",
                 "type": "Knife",
                 "state": "holstered"
             },
             "weapon_1": {
                 "name": "weapon_usp_silencer",
-                "paintkit": "cu_usp_cut",
+                "paintkit": "cu_usp_kill_confirmed",
                 "type": "Pistol",
                 "ammo_clip": 12,
                 "ammo_clip_max": 12,
@@ -89,111 +86,111 @@
                 "state": "holstered"
             },
             "weapon_2": {
+                "name": "weapon_p90",
+                "paintkit": "cu_p90_offworld",
+                "type": "Submachine Gun",
+                "ammo_clip": 23,
+                "ammo_clip_max": 50,
+                "ammo_reserve": 100,
+                "state": "active"
+            },
+            "weapon_3": {
+                "name": "weapon_taser",
+                "paintkit": "default",
+                "ammo_clip": 0,
+                "ammo_clip_max": 1,
+                "ammo_reserve": 0,
+                "state": "holstered"
+            },
+            "weapon_4": {
+                "name": "weapon_incgrenade",
+                "paintkit": "default",
+                "type": "Grenade",
+                "ammo_reserve": 1,
+                "state": "holstered"
+            },
+            "weapon_5": {
                 "name": "weapon_smokegrenade",
                 "paintkit": "default",
                 "type": "Grenade",
                 "ammo_reserve": 1,
                 "state": "holstered"
             },
-            "weapon_3": {
+            "weapon_6": {
                 "name": "weapon_flashbang",
                 "paintkit": "default",
                 "type": "Grenade",
                 "ammo_reserve": 1,
                 "state": "holstered"
-            },
-            "weapon_4": {
-                "name": "weapon_awp",
-                "paintkit": "gs_awp_phobos",
-                "type": "SniperRifle",
-                "ammo_clip": 4,
-                "ammo_clip_max": 5,
-                "ammo_reserve": 29,
-                "state": "active"
             }
         },
         "state": {
             "health": 100,
-            "armor": 100,
+            "armor": 94,
             "helmet": true,
-            "defusekit": true,
             "flashed": 0,
             "smoked": 0,
             "burning": 0,
-            "money": 7050,
-            "round_kills": 1,
+            "money": 12200,
+            "round_kills": 0,
             "round_killhs": 0,
-            "round_totaldmg": 45,
-            "equip_value": 7650
+            "round_totaldmg": 0,
+            "equip_value": 4750
         },
-        "steamid": "76561198254639518",
-        "clan": "FHG",
-        "name": "Zpy",
-        "observer_slot": 2,
+        "steamid": "76561199141263046",
+        "clan": "DK",
+        "name": "Siuli",
+        "observer_slot": 0,
         "team": "CT",
         "activity": "playing"
     },
     "grenades": {
-        "1015": {
-            "owner": "76561198417266863",
-            "position": "-397.91, 908.38, -12.41",
-            "velocity": "390.52, 167.36, -137.98",
-            "lifetime": "4.3",
-            "type": "smoke",
-            "effecttime": "3.9"
-        },
-        "439": {
-            "owner": "76561197972323281",
-            "position": "-371.93, 714.56, -23.24",
-            "velocity": "-37.17, 26.80, 48.38",
-            "lifetime": "1.9",
-            "type": "smoke",
-            "effecttime": "0.0"
-        },
-        "142": {
-            "owner": "76561198254639518",
-            "position": "-531.59, 902.12, 24.59",
+        "490": {
+            "owner": "76561199092177867",
+            "position": "-173.06, -1567.62, -11.41",
             "velocity": "0.00, 0.00, 0.00",
-            "lifetime": "5.1",
+            "lifetime": "1.6",
             "type": "frag"
         },
-        "564": {
-            "owner": "76561198254639518",
-            "lifetime": "1.9",
+        "242": {
+            "owner": "76561199092177867",
+            "lifetime": "3.0",
             "type": "inferno",
             "flames": {
-                "flame_n536_p737_n32": "-536.00, 737.00, -32.00",
-                "flame_n573_p733_n33": "-573.00, 733.00, -33.00",
-                "flame_n576_p703_n34": "-576.00, 703.00, -34.00",
-                "flame_n615_p717_n32": "-615.00, 717.00, -32.00",
-                "flame_n605_p669_n33": "-605.00, 669.00, -33.00",
-                "flame_n646_p728_n31": "-646.00, 728.00, -31.00",
-                "flame_n577_p653_n32": "-577.00, 653.00, -32.00",
-                "flame_n634_p688_n33": "-634.00, 688.00, -33.00",
-                "flame_n544_p631_n31": "-544.00, 631.00, -31.00",
-                "flame_n544_p702_n33": "-544.00, 702.00, -33.00",
-                "flame_n604_p767_n24": "-604.00, 767.00, -24.00",
-                "flame_n637_p781_n24": "-637.00, 781.00, -24.00",
-                "flame_n516_p669_n32": "-516.00, 669.00, -32.00",
-                "flame_n484_p641_n32": "-484.00, 641.00, -32.00"
+                "flame_n204_n1569_n9": "-204.00, -1569.00, -9.00",
+                "flame_n205_n1639_n12": "-205.00, -1639.00, -12.00",
+                "flame_n157_n1614_n12": "-157.00, -1614.00, -12.00",
+                "flame_n163_n1679_p1": "-163.00, -1679.00, 1.00",
+                "flame_n115_n1670_p1": "-115.00, -1670.00, 1.00",
+                "flame_n173_n1517_n12": "-173.00, -1517.00, -12.00",
+                "flame_n204_n1709_p1": "-204.00, -1709.00, 1.00",
+                "flame_n91_n1635_n11": "-91.00, -1635.00, -11.00",
+                "flame_n139_n1472_n12": "-139.00, -1472.00, -12.00",
+                "flame_n178_n1422_n5": "-178.00, -1422.00, -5.00",
+                "flame_n134_n1573_n12": "-134.00, -1573.00, -12.00",
+                "flame_n235_n1501_n12": "-235.00, -1501.00, -12.00",
+                "flame_n261_n1589_n12": "-261.00, -1589.00, -12.00",
+                "flame_n250_n1689_p1": "-250.00, -1689.00, 1.00",
+                "flame_n91_n1471_n12": "-91.00, -1471.00, -12.00",
+                "flame_n69_n1590_n11": "-69.00, -1590.00, -11.00"
             }
         }
     },
     "allplayers": {
-        "76561199020488957": {
-            "clan": "FHG",
-            "name": "WeiXiao",
-            "observer_slot": 0,
-            "team": "CT",
+        "76561198572836287": {
+            "clan": "CTG",
+            "name": "yancher",
+            "observer_slot": 4,
+            "team": "T",
             "match_stats": {
-                "kills": 13,
-                "assists": 4,
-                "deaths": 17,
-                "mvps": 2,
-                "score": 31
+                "kills": 3,
+                "assists": 1,
+                "deaths": 16,
+                "mvps": 1,
+                "score": 0
             },
-            "position": "2094.66, 644.64, 225.60",
-            "forward": "0.82, -0.55, -0.16",
+            "position": "-218.04, -1572.00, -11.97",
+            "forward": "0.94, -0.31, -0.11",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -209,102 +206,43 @@
             },
             "weapons": {}
         },
-        "76561198417266863": {
-            "clan": "FHG",
-            "name": "Bogod",
-            "observer_slot": 1,
+        "76561199141263046": {
+            "clan": "DK",
+            "name": "Siuli",
+            "observer_slot": 0,
             "team": "CT",
             "match_stats": {
-                "kills": 13,
-                "assists": 9,
-                "deaths": 17,
-                "mvps": 3,
-                "score": 37
+                "kills": 10,
+                "assists": 1,
+                "deaths": 6,
+                "mvps": 5,
+                "score": 18
             },
-            "position": "-803.24, 566.57, -31.26",
-            "forward": "-0.98, -0.19, -0.07",
+            "position": "-732.31, 2265.03, 4.02",
+            "forward": "0.98, 0.18, 0.01",
             "state": {
-                "health": 0,
-                "armor": 0,
-                "helmet": false,
+                "health": 100,
+                "armor": 94,
+                "helmet": true,
                 "flashed": 0,
                 "smoked": 0,
                 "burning": 0,
-                "money": 6150,
-                "round_kills": 0,
-                "round_killhs": 0,
-                "round_totaldmg": 55,
-                "equip_value": 5200
-            },
-            "weapons": {}
-        },
-        "76561198434283054": {
-            "clan": "EXU",
-            "name": "ReacT3on",
-            "observer_slot": 5,
-            "team": "T",
-            "match_stats": {
-                "kills": 7,
-                "assists": 4,
-                "deaths": 17,
-                "mvps": 0,
-                "score": 15
-            },
-            "position": "-828.49, 570.27, -30.54",
-            "forward": "0.72, 0.69, 0.05",
-            "state": {
-                "health": 0,
-                "armor": 0,
-                "helmet": false,
-                "flashed": 0,
-                "smoked": 0,
-                "burning": 0,
-                "money": 3400,
+                "money": 12200,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
-                "equip_value": 0
-            },
-            "weapons": {}
-        },
-        "76561198254639518": {
-            "clan": "FHG",
-            "name": "Zpy",
-            "observer_slot": 2,
-            "team": "CT",
-            "match_stats": {
-                "kills": 15,
-                "assists": 1,
-                "deaths": 12,
-                "mvps": 4,
-                "score": 35
-            },
-            "position": "-167.79, 861.64, 41.06",
-            "forward": "-0.91, -0.40, -0.12",
-            "state": {
-                "health": 100,
-                "armor": 100,
-                "helmet": true,
-                "defusekit": true,
-                "flashed": 0,
-                "smoked": 0,
-                "burning": 0,
-                "money": 7050,
-                "round_kills": 1,
-                "round_killhs": 0,
-                "round_totaldmg": 45,
-                "equip_value": 7650
+                "equip_value": 4750
             },
             "weapons": {
                 "weapon_0": {
-                    "name": "weapon_knife_butterfly",
-                    "paintkit": "default",
+                    "name": "weapon_knife_m9_bayonet",
+                    "paintkit": "aa_fade",
                     "type": "Knife",
                     "state": "holstered"
                 },
                 "weapon_1": {
                     "name": "weapon_usp_silencer",
-                    "paintkit": "cu_usp_cut",
+                    "paintkit": "cu_usp_kill_confirmed",
                     "type": "Pistol",
                     "ammo_clip": 12,
                     "ammo_clip_max": 12,
@@ -312,44 +250,59 @@
                     "state": "holstered"
                 },
                 "weapon_2": {
+                    "name": "weapon_p90",
+                    "paintkit": "cu_p90_offworld",
+                    "type": "Submachine Gun",
+                    "ammo_clip": 23,
+                    "ammo_clip_max": 50,
+                    "ammo_reserve": 100,
+                    "state": "active"
+                },
+                "weapon_3": {
+                    "name": "weapon_taser",
+                    "paintkit": "default",
+                    "ammo_clip": 0,
+                    "ammo_clip_max": 1,
+                    "ammo_reserve": 0,
+                    "state": "holstered"
+                },
+                "weapon_4": {
+                    "name": "weapon_incgrenade",
+                    "paintkit": "default",
+                    "type": "Grenade",
+                    "ammo_reserve": 1,
+                    "state": "holstered"
+                },
+                "weapon_5": {
                     "name": "weapon_smokegrenade",
                     "paintkit": "default",
                     "type": "Grenade",
                     "ammo_reserve": 1,
                     "state": "holstered"
                 },
-                "weapon_3": {
+                "weapon_6": {
                     "name": "weapon_flashbang",
                     "paintkit": "default",
                     "type": "Grenade",
                     "ammo_reserve": 1,
                     "state": "holstered"
-                },
-                "weapon_4": {
-                    "name": "weapon_awp",
-                    "paintkit": "gs_awp_phobos",
-                    "type": "SniperRifle",
-                    "ammo_clip": 4,
-                    "ammo_clip_max": 5,
-                    "ammo_reserve": 29,
-                    "state": "active"
                 }
             }
         },
-        "76561199092117903": {
-            "clan": "FHG",
-            "name": "TEARS",
-            "observer_slot": 3,
+        "76561199554204797": {
+            "clan": "DK",
+            "name": "yaoyao",
+            "observer_slot": 1,
             "team": "CT",
             "match_stats": {
-                "kills": 15,
-                "assists": 6,
-                "deaths": 11,
-                "mvps": 3,
-                "score": 33
+                "kills": 7,
+                "assists": 4,
+                "deaths": 15,
+                "mvps": 1,
+                "score": 0
             },
-            "position": "2094.66, 644.64, 225.60",
-            "forward": "0.82, -0.55, -0.16",
+            "position": "-732.31, 2265.03, 4.02",
+            "forward": "0.94, 0.34, 0.01",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -357,7 +310,7 @@
                 "flashed": 0,
                 "smoked": 0,
                 "burning": 0,
-                "money": 3400,
+                "money": 11450,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
@@ -365,47 +318,75 @@
             },
             "weapons": {}
         },
-        "76561198871751785": {
-            "clan": "FHG",
-            "name": "DeathFine",
-            "observer_slot": 4,
+        "76561198304688143": {
+            "clan": "DK",
+            "name": "RISEz3z",
             "team": "CT",
             "match_stats": {
-                "kills": 12,
-                "assists": 4,
-                "deaths": 15,
+                "kills": 4,
+                "assists": 2,
+                "deaths": 11,
                 "mvps": 1,
-                "score": 25
+                "score": 6
             },
-            "position": "2094.66, 644.64, 225.60",
-            "forward": "-0.96, 0.22, -0.15",
+            "position": "-732.31, 2265.03, 4.02",
+            "forward": "0.94, 0.34, 0.01",
             "state": {
-                "health": 100,
-                "armor": 100,
-                "helmet": true,
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
                 "flashed": 0,
                 "smoked": 0,
                 "burning": 0,
-                "money": 7550,
+                "money": 6250,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
-                "equip_value": 5600
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198240311544": {
+            "clan": "DK",
+            "name": "Xan",
+            "observer_slot": 2,
+            "team": "CT",
+            "match_stats": {
+                "kills": 4,
+                "assists": 0,
+                "deaths": 7,
+                "mvps": 1,
+                "score": 0
+            },
+            "position": "-413.09, 2330.57, 24.03",
+            "forward": "-0.50, 0.79, -0.36",
+            "state": {
+                "health": 86,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 16000,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 2200
             },
             "weapons": {
                 "weapon_0": {
-                    "name": "weapon_knife_canis",
-                    "paintkit": "hy_ddpat",
+                    "name": "weapon_knife",
+                    "paintkit": "default",
                     "type": "Knife",
                     "state": "holstered"
                 },
                 "weapon_1": {
-                    "name": "weapon_usp_silencer",
+                    "name": "weapon_deagle",
                     "paintkit": "default",
                     "type": "Pistol",
-                    "ammo_clip": 12,
-                    "ammo_clip_max": 12,
-                    "ammo_reserve": 24,
+                    "ammo_clip": 5,
+                    "ammo_clip_max": 7,
+                    "ammo_reserve": 35,
                     "state": "holstered"
                 },
                 "weapon_2": {
@@ -417,58 +398,88 @@
                     "state": "holstered"
                 },
                 "weapon_3": {
-                    "name": "weapon_m4a1_silencer",
-                    "paintkit": "cu_m4a1s_nightmare",
-                    "type": "Rifle",
-                    "ammo_clip": 20,
-                    "ammo_clip_max": 20,
-                    "ammo_reserve": 80,
+                    "name": "weapon_mag7",
+                    "paintkit": "am_navy_shine",
+                    "type": "Shotgun",
+                    "ammo_clip": 1,
+                    "ammo_clip_max": 5,
+                    "ammo_reserve": 32,
                     "state": "active"
-                },
-                "weapon_4": {
-                    "name": "weapon_smokegrenade",
-                    "paintkit": "default",
-                    "type": "Grenade",
-                    "ammo_reserve": 1,
-                    "state": "holstered"
-                },
-                "weapon_5": {
-                    "name": "weapon_hegrenade",
-                    "paintkit": "default",
-                    "type": "Grenade",
-                    "ammo_reserve": 1,
-                    "state": "holstered"
-                },
-                "weapon_6": {
-                    "name": "weapon_incgrenade",
-                    "paintkit": "default",
-                    "type": "Grenade",
-                    "ammo_reserve": 1,
-                    "state": "holstered"
-                },
-                "weapon_7": {
-                    "name": "weapon_flashbang",
-                    "paintkit": "default",
-                    "type": "Grenade",
-                    "ammo_reserve": 1,
-                    "state": "holstered"
                 }
             }
         },
-        "76561198874197752": {
-            "clan": "EXU",
-            "name": "Mortls",
+        "76561198376554367": {
+            "clan": "CTG",
+            "name": "LaiKeXu",
+            "observer_slot": 5,
+            "team": "T",
+            "match_stats": {
+                "kills": 2,
+                "assists": 1,
+                "deaths": 15,
+                "mvps": 1,
+                "score": 0
+            },
+            "position": "-218.04, -1572.00, -11.97",
+            "forward": "0.94, -0.31, -0.11",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 8700,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561199001648133": {
+            "clan": "DK",
+            "name": "Kyr1e",
+            "observer_slot": 3,
+            "team": "CT",
+            "match_stats": {
+                "kills": 3,
+                "assists": 0,
+                "deaths": 9,
+                "mvps": 1,
+                "score": 1
+            },
+            "position": "-413.09, 2330.57, 24.03",
+            "forward": "0.52, -0.77, -0.36",
+            "state": {
+                "health": 0,
+                "armor": 0,
+                "helmet": false,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 11250,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
+            },
+            "weapons": {}
+        },
+        "76561198956909643": {
+            "clan": "CTG",
+            "name": "Zero",
             "observer_slot": 6,
             "team": "T",
             "match_stats": {
-                "kills": 15,
-                "assists": 3,
-                "deaths": 17,
+                "kills": 4,
+                "assists": 1,
+                "deaths": 16,
                 "mvps": 0,
-                "score": 30
+                "score": 0
             },
-            "position": "-828.49, 570.27, -30.54",
-            "forward": "0.72, 0.69, 0.05",
+            "position": "-218.04, -1572.00, -11.97",
+            "forward": "0.94, -0.31, -0.11",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -476,7 +487,7 @@
                 "flashed": 0,
                 "smoked": 0,
                 "burning": 0,
-                "money": 3500,
+                "money": 11400,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
@@ -484,20 +495,20 @@
             },
             "weapons": {}
         },
-        "76561197972323281": {
-            "clan": "EXU",
-            "name": "ZeroFeng",
+        "76561198962416664": {
+            "clan": "CTG",
+            "name": "957",
             "observer_slot": 7,
             "team": "T",
             "match_stats": {
-                "kills": 10,
-                "assists": 1,
+                "kills": 9,
+                "assists": 2,
                 "deaths": 15,
-                "mvps": 2,
-                "score": 14
+                "mvps": 1,
+                "score": 8
             },
-            "position": "-828.49, 570.27, -30.54",
-            "forward": "0.91, 0.41, 0.06",
+            "position": "-218.04, -1572.00, -11.97",
+            "forward": "0.94, -0.31, -0.11",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -505,69 +516,40 @@
                 "flashed": 0,
                 "smoked": 0,
                 "burning": 0,
-                "money": 3700,
-                "round_kills": 1,
-                "round_killhs": 1,
-                "round_totaldmg": 94,
-                "equip_value": 4300
+                "money": 7900,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "round_totaldmg": 0,
+                "equip_value": 0
             },
             "weapons": {}
         },
-        "76561198362168454": {
-            "clan": "EXU",
-            "name": "nnn1337",
+        "76561199092177867": {
+            "clan": "CTG",
+            "name": "Hack1ng",
             "observer_slot": 8,
             "team": "T",
             "match_stats": {
-                "kills": 18,
-                "assists": 6,
-                "deaths": 17,
-                "mvps": 2,
-                "score": 40
-            },
-            "position": "-828.49, 570.27, -30.54",
-            "forward": "0.72, 0.69, 0.06",
-            "state": {
-                "health": 0,
-                "armor": 0,
-                "helmet": false,
-                "flashed": 0,
-                "smoked": 0,
-                "burning": 0,
-                "money": 5700,
-                "round_kills": 0,
-                "round_killhs": 0,
-                "round_totaldmg": 0,
-                "equip_value": 0
-            },
-            "weapons": {}
-        },
-        "76561199523456450": {
-            "clan": "EXU",
-            "name": "seas",
-            "observer_slot": 9,
-            "team": "T",
-            "match_stats": {
-                "kills": 18,
+                "kills": 4,
                 "assists": 2,
-                "deaths": 16,
-                "mvps": 3,
-                "score": 38
+                "deaths": 15,
+                "mvps": 1,
+                "score": 0
             },
-            "position": "-828.49, 570.27, -30.54",
-            "forward": "0.72, 0.69, 0.06",
+            "position": "-218.04, -1572.00, -11.97",
+            "forward": "0.91, -0.41, -0.11",
             "state": {
                 "health": 0,
                 "armor": 0,
                 "helmet": false,
                 "flashed": 0,
                 "smoked": 0,
-                "burning": 0,
-                "money": 3450,
+                "burning": 255,
+                "money": 6300,
                 "round_kills": 0,
                 "round_killhs": 0,
                 "round_totaldmg": 0,
-                "equip_value": 0
+                "equip_value": 2100
             },
             "weapons": {}
         }
