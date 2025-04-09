@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561199194989046": {
-            "player_name": "left1",
-            "team_name": "LeftTeam",
+        "76561199266867937": {
+            "player_name": "Kungao",
+            "team_name": "XDM",
             "player_seat": 1
         },
-        "76561198408318094": {
-            "player_name": "left2",
-            "team_name": "LeftTeam",
+        "76561199126118595": {
+            "player_name": "taidao",
+            "team_name": "XDM",
             "player_seat": 2
         },
-        "76561198362991943": {
-            "player_name": "left3",
-            "team_name": "LeftTeam",
+        "76561198358874951": {
+            "player_name": "Shadow",
+            "team_name": "XDM",
             "player_seat": 3
         },
-        "76561199841783690": {
-            "player_name": "left4",
-            "team_name": "LeftTeam",
+        "76561199032460571": {
+            "player_name": "r1verLaKe",
+            "team_name": "XDM",
             "player_seat": 4
         },
-        "76561199075719135": {
-            "player_name": "left5",
-            "team_name": "LeftTeam",
+        "76561198445130456": {
+            "player_name": "darkk",
+            "team_name": "XDM",
             "player_seat": 5
         },
-        "76561199193165120": {
-            "player_name": "right1",
-            "team_name": "RightTeam",
+        "76561198976043078": {
+            "player_name": "xd",
+            "team_name": "BEER",
             "player_seat": 6
         },
-        "76561198101370622": {
-            "player_name": "right2",
-            "team_name": "RightTeam",
+        "76561199008336357": {
+            "player_name": "Hgx",
+            "team_name": "BEER",
             "player_seat": 7
         },
-        "76561199388060305": {
-            "player_name": "right3",
-            "team_name": "RightTeam",
+        "76561199368591627": {
+            "player_name": "xiaolin",
+            "team_name": "BEER",
             "player_seat": 8
         },
-        "76561199086334127": {
-            "player_name": "right4",
-            "team_name": "RightTeam",
+        "76561198413391300": {
+            "player_name": "M1dori",
+            "team_name": "BEER",
             "player_seat": 9
         },
-        "76561199060428268": {
-            "player_name": "right5",
-            "team_name": "RightTeam",
+        "76561199738911836": {
+            "player_name": "Angel",
+            "team_name": "BEER",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "",
-            "shortname": "FHG"
+            "fullname": "XDM",
+            "shortname": "XDM"
         },
         "right": {
-            "fullname": "",
-            "shortname": "EXU"
+            "fullname": "BEER",
+            "shortname": "BEER"
         }
     },
-    "match_id": "1-5-1-1",
-    "schedule_id": "1-5-1",
+    "match_id": "1-5-2-1",
+    "schedule_id": "1-5-2",
     "is_over": "0"
 }

@@ -86,7 +86,7 @@ class PlayerList(Base):
     nickname = Column(String(255), nullable=False, comment="游戏内名称")
     team = Column(String(255), nullable=False)
     starter = Column(Integer, nullable=False)
-    offline = Column(Integer, nullable=False)
+    offline = Column(Integer, nullable=False, primary_key=True)
     # create_time = Column(DateTime, nullable=False, server_default=func.now(), comment="创建时间，默认当前时间")
     # update_time = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now(), comment="更新时间，默认当前时间")
 

@@ -261,7 +261,6 @@ def backgroundProcess():
     while True:
         try:
             checkGlobalData()
-            check_timeout()
             sendEventMsg()
             store_round_data()
             store_real_time_data()
@@ -276,6 +275,9 @@ def allPlayerState():
     try:
         all_players_data = global_data.data["allplayers"]
         for key, player_data in all_players_data.items():
+            steam_ids_record = list(player_info["player"].keys())
+            if key not in steam_ids_record:
+                continue
             # 取到选手预录信息
             this_player_info = player_info["player"][str(key)]
             # 选手本场比赛数据
@@ -285,6 +287,9 @@ def allPlayerState():
             res["players"].append(
                 {
                     "player_name": this_player_info["player_name"].upper(),
+                    "player_name_with_team": this_player_info["team_name"]
+                    + "_"
+                    + this_player_info["player_name"].upper(),
                     "team_name": this_player_info["team_name"],
                     "seat": this_player_info["player_seat"],
                     "K": this_player_data["kills"],
@@ -317,7 +322,7 @@ def allPlayerState():
             res["timeout_team"] = ""
 
         boom = 0
-        defusing = 0
+        planting = 0
         if (
             "bomb" in global_data.data
             and global_data.data["bomb"]["state"] == "exploded"
@@ -325,11 +330,11 @@ def allPlayerState():
             boom = 1
         elif (
             "bomb" in global_data.data
-            and global_data.data["bomb"]["state"] == "defusing"
+            and global_data.data["bomb"]["state"] == "planting"
         ):
-            defusing = 1
+            planting = 1
         res["boom"] = boom
-        res["defusing"] = defusing
+        res["planting"] = planting
         res["players"].sort(key=lambda a: a["seat"])
         return jsonify({"msg": "succeed", "data": res})
 
@@ -478,7 +483,7 @@ def real_time_score():
                 "left_team_info": [],
                 "right_team_info": [],
             }
-        print(res)
+        # print(res)
         return res
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
@@ -503,6 +508,8 @@ def get_players_adr(match_id):
             .limit(1)
             .scalar()
         )
+        if (all_players == [] or all_players is None) or round_count is None:
+            return None
         for player in all_players:
             dmg_list = [
                 item[0]

@@ -64,7 +64,7 @@ def get_overall_board() -> dict:
             weapons = {}
             # 遍历武器并分类
             for weapon in player["weapons"].values():
-                if weapon["type"] in [
+                if weapon.get("type", '') in [
                     "Knife",
                     "Pistol",
                     "Rifle",
@@ -74,11 +74,11 @@ def get_overall_board() -> dict:
                     "Shotgun",
                 ]:
                     weapons[weapon["type"]] = weapon["name"]
-                elif weapon["type"] == "Grenade":
+                elif weapon.get('type', '') == "Grenade":
                     grenade_list = weapons.get("Grenade", [])
                     grenade_list.append(weapon["name"])
                     weapons["Grenade"] = grenade_list
-
+                
             # 根据武器类型优先级选择 weapon_show
             weapon_show = None
             for weapon_type in [

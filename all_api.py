@@ -346,7 +346,7 @@ def mvp():
         for p in players:
             player_info = (
                 session.query(PlayerList.team, PlayerList.player_name)
-                .filter(PlayerList.nickname == p.player_name)
+                .filter(and_(PlayerList.nickname == p.player_name, PlayerList.offline == 1))
                 .first()
             )
             if player_info[0] == win_team:
@@ -355,8 +355,9 @@ def mvp():
                 name = player_info[1]
                 break
         # mvp_info = {
-        #     "player_name": "Linz1",
-        #     "team": "BEER",
+        #     "player_name_with_team": "CTG_957",
+        #     "player_name": "957",
+        #     "team": "CTG",
         #     "kills": 19,
         #     "deaths": 12,
         #     "assists": 6,
@@ -366,7 +367,7 @@ def mvp():
         #     "muitikills": 8,
         # }
         mvp_info = {
-            "player_name": name,
+            "player_name": team + '_' + name,
             "team": team,
             "kills": mvp.kills,
             "deaths": mvp.deaths,
