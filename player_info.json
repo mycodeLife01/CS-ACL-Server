@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561198956909643": {
-            "player_name": "Zero",
-            "team_name": "CTG",
+        "76561199667278643": {
+            "player_name": "Ghost217",
+            "team_name": "RSG",
             "player_seat": 1
         },
-        "76561198572836287": {
-            "player_name": "yancher",
-            "team_name": "CTG",
+        "76561198971523807": {
+            "player_name": "ShenxianG",
+            "team_name": "RSG",
             "player_seat": 2
         },
-        "76561199092177867": {
-            "player_name": "Hack1ng",
-            "team_name": "CTG",
+        "76561198990496488": {
+            "player_name": "Hunten",
+            "team_name": "RSG",
             "player_seat": 3
         },
-        "76561198962416664": {
-            "player_name": "957",
-            "team_name": "CTG",
+        "76561199034215678": {
+            "player_name": "yuhuanKY",
+            "team_name": "RSG",
             "player_seat": 4
         },
-        "76561198376554367": {
-            "player_name": "LaiKeXu",
-            "team_name": "CTG",
+        "76561198388104887": {
+            "player_name": "P1G",
+            "team_name": "RSG",
             "player_seat": 5
         },
-        "76561199141263046": {
-            "player_name": "Siuli",
-            "team_name": "DK",
+        "76561198254639518": {
+            "player_name": "Zpy",
+            "team_name": "FHG",
             "player_seat": 6
         },
-        "76561198304688143": {
-            "player_name": "RISEz3z",
-            "team_name": "DK",
+        "76561198417266863": {
+            "player_name": "Bogod",
+            "team_name": "FHG",
             "player_seat": 7
         },
-        "76561199001648133": {
-            "player_name": "Kyr1e",
-            "team_name": "DK",
+        "76561199092117903": {
+            "player_name": "TEARS",
+            "team_name": "FHG",
             "player_seat": 8
         },
-        "76561198240311544": {
-            "player_name": "xan",
-            "team_name": "DK",
+        "76561199020488957": {
+            "player_name": "WeiXiao",
+            "team_name": "FHG",
             "player_seat": 9
         },
-        "76561199554204797": {
-            "player_name": "yaoyao",
-            "team_name": "DK",
+        "76561198871751785": {
+            "player_name": "DeathFine",
+            "team_name": "FHG",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "Team Spirit",
-            "shortname": "TS"
+            "fullname": "RSG",
+            "shortname": "RSG"
         },
         "right": {
-            "fullname": "SAW",
-            "shortname": "SAW"
+            "fullname": "FHG",
+            "shortname": "FHG"
         }
     },
-    "match_id": "99",
-    "schedule_id": "99",
-    "is_over": "0"
+    "match_id": "1-1-11-3",
+    "schedule_id": "1-1-11",
+    "is_over": "1"
 }

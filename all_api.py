@@ -135,6 +135,8 @@ def get_aftergame_board():
                 left_team_info.append(data)
             else:
                 right_team_info.append(data)
+        left_team_info.sort(key=lambda player: player["adr"], reverse=True)
+        right_team_info.sort(key=lambda player: player["adr"], reverse=True)
         res["left_team_info"] = left_team_info
         res["right_team_info"] = right_team_info
         return res
@@ -346,7 +348,9 @@ def mvp():
         for p in players:
             player_info = (
                 session.query(PlayerList.team, PlayerList.player_name)
-                .filter(and_(PlayerList.nickname == p.player_name, PlayerList.offline == 1))
+                .filter(
+                    and_(PlayerList.nickname == p.player_name, PlayerList.offline == 1)
+                )
                 .first()
             )
             if player_info[0] == win_team:
@@ -367,7 +371,7 @@ def mvp():
         #     "muitikills": 8,
         # }
         mvp_info = {
-            "player_name": team + '_' + name,
+            "player_name": team + "_" + name,
             "team": team,
             "kills": mvp.kills,
             "deaths": mvp.deaths,

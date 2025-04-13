@@ -14,7 +14,7 @@ import json
 import requests
 import os
 import logging
-
+import traceback
 
 app = Flask(__name__)
 
@@ -91,7 +91,8 @@ def checkGlobalData():
     if {left_team, right_team} != gsi_team_names:
         print("配置文件队名输入有误！")
         raise SystemExit
-    # print(global_data.data)
+    # print(f'ct timeouts remaining: {global_data.data["map"]["team_ct"]["timeouts_remaining"]}')
+    # print(f't timeouts remaining: {global_data.data["map"]["team_t"]["timeouts_remaining"]}')
     # time.sleep(5)
     current_round = global_data.data["map"]["round"]
     # 输出bomb状态，在当前回合内判断，若current_round!=global_data.round，则更新current_round后再取bomb状态
@@ -263,8 +264,7 @@ def backgroundProcess():
             checkGlobalData()
             sendEventMsg()
             store_round_data()
-            # store_real_time_data()
-            # save_round_data()
+            store_real_time_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
 
@@ -289,7 +289,7 @@ def allPlayerState():
                     "player_name": this_player_info["player_name"],
                     "player_name_with_team": this_player_info["team_name"]
                     + "_"
-                    + this_player_info["player_name"].upper(),
+                    + this_player_info["player_name"],
                     "team_name": this_player_info["team_name"],
                     "seat": this_player_info["player_seat"],
                     "K": this_player_data["kills"],
@@ -344,7 +344,7 @@ def allPlayerState():
         return jsonify({"msg": "succeed", "data": res})
 
     except Exception as e:
-        print(f"发生错误：{e}")
+        logging.error(f"all player error:{e}", exc_info=True)
         return jsonify({"msg": "Error...", "data": []})
 
 
@@ -488,10 +488,13 @@ def real_time_score():
                 "left_team_info": [],
                 "right_team_info": [],
             }
+        res["left_team_info"].sort(key=lambda player: player["adr"], reverse=True)
+        res["right_team_info"].sort(key=lambda player: player["adr"], reverse=True)
         # print(res)
         return res
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+        traceback.print_exc()
         return None
 
     # def get_players_adr(match_id):
@@ -566,11 +569,6 @@ def get_players_adr(match_id):
     except Exception as e:
         logging.error(f"处理adr时发生错误{e}", exc_info=True)
         return None
-
-
-@lru_cache(maxsize=32)
-def get_players_adr_cached(match_id):
-    return get_players_adr(match_id)
 
 
 @app.route("/scores")
@@ -671,7 +669,7 @@ def store_real_time_data():
         team_2 = player_info["teams"]["right"]["shortname"]
     except Exception as e:
         logging.error(f"获取比赛基本信息错误: {e}", exc_info=True)
-        return
+        return          
     # 更新match和schedule状态
     try:
         schedule_status = (
@@ -970,7 +968,12 @@ def slide_bar():
         return jsonify({"message": "success", "data": bar, "code": 200})
     return jsonify({"message": "error"})
 
-
+# first_timeout = [1, 1]
+# def watch_first_timeout():
+#     phase = global_data.data['phase_countdowns']["phase"]
+#     if phase in ('timeout_t', 'timeout_ct'):
+        
+            
 if __name__ == "__main__":
     myServer = server.GSIServer(("127.0.0.1", 3000), "vspo")
     myServer.start_server()
