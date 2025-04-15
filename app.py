@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from gsi import server
 from datetime import datetime
 from models import *
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 from all_api import after_game_score
 from service import *
 from functools import reduce, lru_cache
@@ -84,13 +84,13 @@ def initalizeRound():
 def checkGlobalData():
     global isFirstPlanted, round_wins_count, left_team, right_team, side_swaped, t_name_firsthalf, ct_name_firsthalf
     # 检查队名是否输入正确
-    gsi_team_names = {
-        global_data.data["map"]["team_ct"]["name"],
-        global_data.data["map"]["team_t"]["name"],
-    }
-    if {left_team, right_team} != gsi_team_names:
-        print("配置文件队名输入有误！")
-        raise SystemExit
+    # gsi_team_names = {
+    #     global_data.data["map"]["team_ct"]["name"],
+    #     global_data.data["map"]["team_t"]["name"],
+    # }
+    # if {left_team, right_team} != gsi_team_names:
+    #     print("配置文件队名输入有误！")
+    #     raise SystemExit
     # print(f'ct timeouts remaining: {global_data.data["map"]["team_ct"]["timeouts_remaining"]}')
     # print(f't timeouts remaining: {global_data.data["map"]["team_t"]["timeouts_remaining"]}')
     # time.sleep(5)
@@ -264,7 +264,7 @@ def backgroundProcess():
             checkGlobalData()
             sendEventMsg()
             store_round_data()
-            store_real_time_data()
+            # store_real_time_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
 
@@ -669,7 +669,7 @@ def store_real_time_data():
         team_2 = player_info["teams"]["right"]["shortname"]
     except Exception as e:
         logging.error(f"获取比赛基本信息错误: {e}", exc_info=True)
-        return          
+        return
     # 更新match和schedule状态
     try:
         schedule_status = (
@@ -904,11 +904,16 @@ def check_timeout() -> None:
 
 
 def store_round_data():
-    global round_data_stored
     gsi = global_data.data
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
     round = gsi["map"]["round"]
+    win_result = list(gsi["map"]["round_wins"].values())[-1]
+    win_team = (
+        gsi["map"]["team_ct"]["name"]
+        if win_result[0] == "c"
+        else gsi["map"]["team_t"]["name"]
+    )
     match_id = player_info["match_id"]
     count = (
         session.query(DataRound)
@@ -942,7 +947,11 @@ def store_round_data():
                     match_id=match_id,
                 )
                 session.add(data_round)
-
+            # 保存round赛果
+            data_round_team = DataRoundTeam(
+                match_id=match_id, round=round, win_team=win_team, win_result=win_result
+            )
+            session.add(data_round_team)
         except Exception as e:
             logging.error(f"保存round data到数据库时发生错误: {e}", exc_info=True)
             session.rollback()
@@ -968,18 +977,97 @@ def slide_bar():
         return jsonify({"message": "success", "data": bar, "code": 200})
     return jsonify({"message": "error"})
 
-# first_timeout = [1, 1]
-# def watch_first_timeout():
-#     phase = global_data.data['phase_countdowns']["phase"]
-#     if phase in ('timeout_t', 'timeout_ct'):
-        
-            
+
+def compare_map_pool(team_1, team_2):
+    try:
+        Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+        session = Session()
+        # 查询所有team1参加过的赛程
+        schedule_ids_team1_query = (
+            session.query(Schedule.schedule_id)
+            .filter(
+                and_(or_(Schedule.team_1 == team_1, Schedule.team_2 == team_1)),
+                Schedule.stage_id.notin_(["0", "5"]),
+            )
+            .all()
+        )
+        schedule_ids_team1 = [item[0] for item in schedule_ids_team1_query]
+        # 查询所有team2参加过的赛程
+        schedule_ids_team2_query = (
+            session.query(Schedule.schedule_id)
+            .filter(
+                and_(or_(Schedule.team_1 == team_2, Schedule.team_2 == team_2)),
+                Schedule.stage_id.notin_(["0", "5"]),
+            )
+            .all()
+        )
+        schedule_ids_team2 = [item[0] for item in schedule_ids_team2_query]
+        matches_with_team1 = (
+            session.query(Match).filter(Match.schedule_id.in_(schedule_ids_team1)).all()
+        )
+        matches_with_team2 = (
+            session.query(Match).filter(Match.schedule_id.in_(schedule_ids_team2)).all()
+        )
+        team1_map = {}
+        team2_map = {}
+        for match in matches_with_team1:
+            map = match.map
+            win_team = match.winner
+            if map not in team1_map:
+                team1_map.update({map: {"win": 0, "lose": 0}})
+            if win_team == team_1:
+                team1_map[map]["win"] += 1
+            else:
+                team1_map[map]["lose"] += 1
+        for match in matches_with_team2:
+            map = match.map
+            win_team = match.winner
+            if map not in team2_map:
+                team2_map.update({map: {"win": 0, "lose": 0}})
+            if win_team == team_1:
+                team2_map[map]["win"] += 1
+            else:
+                team2_map[map]["lose"] += 1
+        common_maps = list(set(team1_map.keys()) & set(team2_map.keys()))
+        result = []
+        for map in common_maps:
+            map_info_team1 = team1_map[map]
+            map_info_team2 = team2_map[map]
+            result.append(
+                {
+                    "map": map,
+                    "team1": team_1,
+                    "team2": team_2,
+                    "map_info_team1": map_info_team1,
+                    "map_info_team2": map_info_team2,
+                }
+            )
+        return result
+    except Exception as e:
+        logging.error(f"compare_map_pool错误:{e}", exc_info=True)
+
+
+@app.route("/team_compare")
+def get_team_compare():
+    try:
+        Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+        session = Session()
+        cp = session.query(CpTeam).filter(CpTeam.select == 1).first()
+        team_1 = cp.team_1
+        team_2 = cp.team_2
+        map_cp = compare_map_pool(team_1, team_2)
+        return jsonify({"message": "success", "data": map_cp, "code": 200})
+    except Exception as e:
+        logging.error(f"get team compare错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
+
+
 if __name__ == "__main__":
-    myServer = server.GSIServer(("127.0.0.1", 3000), "vspo")
-    myServer.start_server()
-    initalizeRound()
-    initializeSide()
-    thread = threading.Thread(target=backgroundProcess)
-    thread.daemon = True
-    thread.start()
+    # myServer = server.GSIServer(("127.0.0.1", 3000), "vspo")
+    # myServer.start_server()
+    # initalizeRound()
+    # initializeSide()
+    # thread = threading.Thread(target=backgroundProcess)
+    # thread.daemon = True
+    # thread.start()
     app.run(host="0.0.0.0", port=1234, debug=False)

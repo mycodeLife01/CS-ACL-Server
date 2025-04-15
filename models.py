@@ -155,6 +155,7 @@ class Match(Base):
     match_status = Column(Integer, nullable=False)
     match_real_start_time = Column(Integer, nullable=False)
     match_real_end_time = Column(Integer, nullable=False)
+    map = Column(String(255), nullable=False)
 
 
 class RealTimeMatch(Base):
@@ -214,4 +215,17 @@ class PlayerOffline(Base):
     delete = Column(Integer, nullable=False)
 
 
-# Base.metadata.create_all(ENGINELocal)
+class DataRoundTeam(Base):
+    __tablename__ = "data_round_team"
+    match_id = Column(String(255), primary_key=True)
+    round = Column(String(255), primary_key=True)
+    win_team = Column(String(255), nullable=False)
+    win_result = Column(String(255), nullable=False)
+
+
+class CpTeam(Base):
+    __tablename__ = "cp_team"
+    cp_team_id = Column(Integer, primary_key=True)
+    team_1 = Column(String(255), nullable=False)
+    team_2 = Column(String(255), nullable=False)
+    select = Column(Integer, nullable=False)
