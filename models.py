@@ -124,6 +124,7 @@ class DataGame(Base):
         comment="更新时间，默认当前时间",
     )
     match_id = Column(String(255), nullable=False)
+    is_delete = Column(Integer, nullable=False)
 
 
 class Schedule(Base):
@@ -221,6 +222,8 @@ class DataRoundTeam(Base):
     round = Column(String(255), primary_key=True)
     win_team = Column(String(255), nullable=False)
     win_result = Column(String(255), nullable=False)
+    team_1 = Column(String(255), nullable=False)
+    team_2 = Column(String(255), nullable=False)
 
 
 class CpTeam(Base):
@@ -228,4 +231,19 @@ class CpTeam(Base):
     cp_team_id = Column(Integer, primary_key=True)
     team_1 = Column(String(255), nullable=False)
     team_2 = Column(String(255), nullable=False)
+    select = Column(Integer, nullable=False)
+
+
+class CpPlayer(Base):
+    __tablename__ = "cp_player"
+    cp_team_id = Column(Integer, primary_key=True)
+    player_name_1 = Column(String(255), nullable=False)
+    player_name_2 = Column(String(255), nullable=False)
+    select = Column(Integer, nullable=False)
+
+
+class PlayerShow(Base):
+    __tablename__ = "player_show"
+    player_show_id = Column(Integer, primary_key=True)
+    player_name = Column(String(255), nullable=False)
     select = Column(Integer, nullable=False)

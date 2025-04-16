@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561199667278643": {
-            "player_name": "Ghost217",
-            "team_name": "RSG",
+        "76561198061200854": {
+            "player_name": "Winnieeeee",
+            "team_name": "M",
             "player_seat": 1
         },
-        "76561198971523807": {
-            "player_name": "ShenxianG",
-            "team_name": "RSG",
+        "76561198050779850": {
+            "player_name": "rekonz",
+            "team_name": "M",
             "player_seat": 2
         },
-        "76561198990496488": {
-            "player_name": "Hunten",
-            "team_name": "RSG",
+        "76561197989582314": {
+            "player_name": "Cheeseball",
+            "team_name": "M",
             "player_seat": 3
         },
-        "76561199034215678": {
-            "player_name": "yuhuanKY",
-            "team_name": "RSG",
+        "76561198011647361": {
+            "player_name": "cookie",
+            "team_name": "M",
             "player_seat": 4
         },
-        "76561198388104887": {
-            "player_name": "P1G",
-            "team_name": "RSG",
+        "76561198093162249": {
+            "player_name": "Skullhunter",
+            "team_name": "M",
             "player_seat": 5
         },
-        "76561198254639518": {
-            "player_name": "Zpy",
-            "team_name": "FHG",
+        "76561198386285160": {
+            "player_name": "Oath",
+            "team_name": "OOW",
             "player_seat": 6
         },
-        "76561198417266863": {
-            "player_name": "Bogod",
-            "team_name": "FHG",
+        "76561197972045728": {
+            "player_name": "viridian",
+            "team_name": "OOW",
             "player_seat": 7
         },
-        "76561199092117903": {
-            "player_name": "TEARS",
-            "team_name": "FHG",
+        "76561198168621443": {
+            "player_name": "Freeman",
+            "team_name": "OOW",
             "player_seat": 8
         },
-        "76561199020488957": {
-            "player_name": "WeiXiao",
-            "team_name": "FHG",
+        "76561198158795735": {
+            "player_name": "Terryyy",
+            "team_name": "OOW",
             "player_seat": 9
         },
-        "76561198871751785": {
-            "player_name": "DeathFine",
-            "team_name": "FHG",
+        "76561198850174383": {
+            "player_name": "BaN4na",
+            "team_name": "OOW",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "RSG",
-            "shortname": "RSG"
+            "fullname": "M",
+            "shortname": "M"
         },
         "right": {
-            "fullname": "FHG",
-            "shortname": "FHG"
+            "fullname": "OOW",
+            "shortname": "OOW"
         }
     },
-    "match_id": "1-99-1",
-    "schedule_id": "1-1-11",
+    "match_id": "1-6-2-1",
+    "schedule_id": "1-6-2",
     "is_over": "1"
 }
