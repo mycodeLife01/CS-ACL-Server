@@ -1,5 +1,10 @@
 import global_data
 import logging
+import json
+
+player_info = None
+with open("player_info.json", "r", encoding="utf-8") as f:
+    player_info = json.load(f)
 
 
 # 战队选手数据版
@@ -27,7 +32,7 @@ def get_overall_board() -> dict:
         ]
 
         gsi_data["map"]["team_t"]["consecutive_round_losses"]
-        
+
         loss_bonus_dict = {0: 1400, 1: 1900, 2: 2400, 3: 2900, 4: 3400}
 
         ct_loss_bonus = (
@@ -72,6 +77,9 @@ def get_overall_board() -> dict:
         ct_player_data = []
         t_player_data = []
         for steam_id, player in gsi_data["allplayers"].items():
+            steam_ids_record = player_info["player"].keys()
+            if steam_id not in steam_ids_record:
+                continue
             name = player["name"]
             money = player["state"]["money"]
             weapons = {}
@@ -162,7 +170,7 @@ def get_overall_board() -> dict:
         }
     except Exception as e:
         logging.error(f"处理overallBorad时发生错误:{e}", exc_info=True)
-        return None
+        return {}
 
 
 # 每回合胜利方式侧边栏
@@ -251,4 +259,4 @@ def get_slide_bar():
 
     except Exception as e:
         logging.error(f"处理slideBar时发生错误:{e}", exc_info=True)
-        return None
+        return {}

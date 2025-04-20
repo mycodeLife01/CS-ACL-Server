@@ -267,6 +267,7 @@ def backgroundProcess():
             store_real_time_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
+            time.sleep(3)
 
 
 @app.route("/allPlayerState")
@@ -388,8 +389,8 @@ def initializeSide():
                 ct_wins += 1
             else:
                 t_wins += 1
-            t_wins_firsthalf = t_wins
-            ct_wins_firsthalf = ct_wins
+        t_wins_firsthalf = t_wins
+        ct_wins_firsthalf = ct_wins
     ct_name_firsthalf = global_data.data["map"]["team_ct"]["name"]
     t_name_firsthalf = global_data.data["map"]["team_t"]["name"]
     side_initialized = True
@@ -403,9 +404,38 @@ def real_time_score():
     try:
         ct_wins = 0
         t_wins = 0
+        left_team_player_info = []
+        right_team_player_info = []
+        t_fullname = global_data.data["map"]["team_t"]["name"]
+        ct_fullname = global_data.data["map"]["team_ct"]["name"]
+        match_id = player_info["match_id"]
+
+        for player_data in global_data.data["allplayers"].values():
+            side = player_data["team"]  # t/ct
+            match_stats = player_data["match_stats"]
+            adr_dict = get_players_adr(match_id)
+            adr = int(adr_dict[player_data["name"]]) if adr_dict is not None else 0
+            data = {
+                "player_name": player_data["name"],
+                "kills": match_stats["kills"],
+                "deaths": match_stats["deaths"],
+                "assists": match_stats["assists"],
+                "adr": adr,
+            }
+            if (side == "T" and t_fullname == left_team) or (
+                side == "CT" and ct_fullname == left_team
+            ):
+                left_team_player_info.append(data)
+            elif (side == "T" and t_fullname == right_team) or (
+                side == "CT" and ct_fullname == right_team
+            ):
+                right_team_player_info.append(data)
+        left_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
+        right_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
+
         # 如果加时，用另一套逻辑
         if global_data.data["map"]["round"] >= 24:
-            print("加时比分")
+            # print("加时比分")
             t_data = global_data.data["map"]["team_t"]
             ct_data = global_data.data["map"]["team_ct"]
             if t_data["name"] == left_team:
@@ -414,6 +444,8 @@ def real_time_score():
                     "left_team": left_team_short,
                     "right": ct_data["score"],
                     "right_team": right_team_short,
+                    "left_team_info": left_team_player_info,
+                    "right_team_info": right_team_player_info,
                 }
             else:
                 return {
@@ -421,7 +453,10 @@ def real_time_score():
                     "left_team": left_team_short,
                     "right": t_data["score"],
                     "right_team": right_team_short,
+                    "left_team_info": left_team_player_info,
+                    "right_team_info": right_team_player_info,
                 }
+
         if "round_wins" in global_data.data["map"]:
             round_wins = global_data.data["map"]["round_wins"]
             for result in round_wins.values():
@@ -444,33 +479,6 @@ def real_time_score():
                 left_score = t_wins - t_wins_firsthalf + ct_wins_firsthalf
                 right_score = ct_wins - ct_wins_firsthalf + t_wins_firsthalf
 
-            left_team_player_info = []
-            right_team_player_info = []
-            t_fullname = global_data.data["map"]["team_t"]["name"]
-            ct_fullname = global_data.data["map"]["team_ct"]["name"]
-            match_id = player_info["match_id"]
-
-            for player_data in global_data.data["allplayers"].values():
-                side = player_data["team"]  # t/ct
-                match_stats = player_data["match_stats"]
-                adr_dict = get_players_adr(match_id)
-                adr = int(adr_dict[player_data["name"]]) if adr_dict is not None else 0
-                data = {
-                    "player_name": player_data["name"],
-                    "kills": match_stats["kills"],
-                    "deaths": match_stats["deaths"],
-                    "assists": match_stats["assists"],
-                    "adr": adr,
-                }
-                if (side == "T" and t_fullname == left_team) or (
-                    side == "CT" and ct_fullname == left_team
-                ):
-                    left_team_player_info.append(data)
-                elif (side == "T" and t_fullname == right_team) or (
-                    side == "CT" and ct_fullname == right_team
-                ):
-                    right_team_player_info.append(data)
-
             res = {
                 "left": left_score,
                 "right": right_score,
@@ -488,59 +496,10 @@ def real_time_score():
                 "left_team_info": [],
                 "right_team_info": [],
             }
-        res["left_team_info"].sort(key=lambda player: player["adr"], reverse=True)
-        res["right_team_info"].sort(key=lambda player: player["adr"], reverse=True)
-        # print(res)
         return res
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
         traceback.print_exc()
-        return None
-
-    # def get_players_adr(match_id):
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
-    res = {}
-    try:
-        all_players = [
-            p[0]
-            for p in session.query(DataRound.player_name)
-            .filter(DataRound.match_id == match_id)
-            .distinct()
-            .all()
-        ]
-        round_count = (
-            session.query(DataRound.round)
-            .order_by(DataRound.round.desc())
-            .limit(1)
-            .scalar()
-        )
-        if (all_players == [] or all_players is None) or round_count is None:
-            return None
-
-        # dmg_list = [
-        #         (item[0], item[1])
-        #         for item in session.query(DataRound.player_name, DataRound.round_totaldmg)
-        #         .filter(
-        #             DataRound.match_id == match_id
-        #         )
-        #         .all()
-        #     ]
-        for player in all_players:
-            dmg_list = [
-                item[0]
-                for item in session.query(DataRound.round_totaldmg)
-                .filter(
-                    and_(
-                        DataRound.player_name == player, DataRound.match_id == match_id
-                    )
-                )
-                .all()
-            ]
-            res[player] = reduce(add, dmg_list) / round_count
-        return res
-    except Exception as e:
-        logging.error(f"获取比赛基本信息错误: {e}", exc_info=True)
         return None
 
 
@@ -682,7 +641,7 @@ def store_real_time_data():
             .filter(Match.match_id == match_id)
             .scalar()
         )
-        if schedule_status == 1 and match_status == 1:
+        if schedule_status == 2 and match_status == 1:
             session.query(Schedule).filter(Schedule.schedule_id == schedule_id).update(
                 {
                     "schedule_status": 2,
@@ -695,13 +654,13 @@ def store_real_time_data():
                     "match_real_start_time": int(time.time() * 1000),
                 }
             )
-        elif schedule_status == 2 and match_status == 1:
-            session.query(Match).filter(Match.match_id == match_id).update(
-                {
-                    "match_status": 2,
-                    "match_real_start_time": int(time.time() * 1000),
-                }
-            )
+        # elif schedule_status == 2 and match_status == 1:
+        #     session.query(Match).filter(Match.match_id == match_id).update(
+        #         {
+        #             "match_status": 2,
+        #             "match_real_start_time": int(time.time() * 1000),
+        #         }
+        #     )
     except Exception as e:
         logging.error(f"更新status和start_time时发生错误: {e}", exc_info=True)
         session.rollback()
@@ -892,15 +851,15 @@ timeout_url = ""
 timeout_flag = True
 
 
-def check_timeout() -> None:
-    global timeout_flag
-    phase = global_data.data["phase_countdowns"]["phase"]
-    if phase in ("timeout_ct", "timeout_t") and timeout_flag:
-        print("--------------------Timout--------------------")
-        # requests.post(timeout_url)
-        timeout_flag = False
-    elif phase not in ("timeout_ct", "timeout_t") and not timeout_flag:
-        timeout_flag = True
+# def check_timeout() -> None:
+#     global timeout_flag
+#     phase = global_data.data["phase_countdowns"]["phase"]
+#     if phase in ("timeout_ct", "timeout_t") and timeout_flag:
+#         print("--------------------Timout--------------------")
+#         # requests.post(timeout_url)
+#         timeout_flag = False
+#     elif phase not in ("timeout_ct", "timeout_t") and not timeout_flag:
+#         timeout_flag = True
 
 
 def store_round_data():
@@ -908,23 +867,30 @@ def store_round_data():
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
     round = gsi["map"]["round"]
-    win_result = list(gsi["map"]["round_wins"].values())[-1]
-    win_team = (
-        gsi["map"]["team_ct"]["name"]
-        if win_result[0] == "c"
-        else gsi["map"]["team_t"]["name"]
-    )
     match_id = player_info["match_id"]
-    count = (
+    count_player = (
         session.query(DataRound)
         .filter(and_(DataRound.round == round, DataRound.match_id == match_id))
         .count()
     )
+    count_team = (
+        session.query(DataRoundTeam)
+        .filter(and_(DataRoundTeam.round == round, DataRoundTeam.match_id == match_id))
+        .count()
+    )
 
     phase = gsi["phase_countdowns"]["phase"]
-
-    if phase == "over" and count < 10:
+    map_phase = gsi["map"]["phase"]
+    if (phase == "over" or map_phase == "gameover") and (
+        count_player < 10 and count_team < 1
+    ):
         try:
+            win_result = list(gsi["map"]["round_wins"].values())[-1]
+            win_team = (
+                gsi["map"]["team_ct"]["name"]
+                if win_result[0] == "c"
+                else gsi["map"]["team_t"]["name"]
+            )
             player_stats = [
                 {
                     "steam_id": steam_id,
@@ -960,7 +926,6 @@ def store_round_data():
         except Exception as e:
             logging.error(f"保存round data到数据库时发生错误: {e}", exc_info=True)
             session.rollback()
-            session.close()
         finally:
             logging.info(f"round{round}数据保存成功！")
             session.commit()
@@ -992,7 +957,7 @@ def compare_map_pool(team_1, team_2):
             session.query(Schedule.schedule_id)
             .filter(
                 and_(or_(Schedule.team_1 == team_1, Schedule.team_2 == team_1)),
-                Schedule.stage_id.notin_(["0", "5"]),
+                Schedule.stage_id.notin_(["0", "5", "6"]),
             )
             .all()
         )
@@ -1002,7 +967,7 @@ def compare_map_pool(team_1, team_2):
             session.query(Schedule.schedule_id)
             .filter(
                 and_(or_(Schedule.team_1 == team_2, Schedule.team_2 == team_2)),
-                Schedule.stage_id.notin_(["0", "5"]),
+                Schedule.stage_id.notin_(["0", "5", "6"]),
             )
             .all()
         )

@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561198061200854": {
-            "player_name": "Winnieeeee",
-            "team_name": "M",
+        "76561198365532093": {
+            "player_name": "Owbb",
+            "team_name": "GTR",
             "player_seat": 1
         },
-        "76561198050779850": {
-            "player_name": "rekonz",
-            "team_name": "M",
+        "76561198903814137": {
+            "player_name": "Kon",
+            "team_name": "GTR",
             "player_seat": 2
         },
-        "76561197989582314": {
-            "player_name": "Cheeseball",
-            "team_name": "M",
+        "76561198821704237": {
+            "player_name": "DimSuM",
+            "team_name": "GTR",
             "player_seat": 3
         },
-        "76561198011647361": {
-            "player_name": "cookie",
-            "team_name": "M",
+        "76561198285398670": {
+            "player_name": "Pupu",
+            "team_name": "GTR",
             "player_seat": 4
         },
-        "76561198093162249": {
-            "player_name": "Skullhunter",
-            "team_name": "M",
+        "76561199099255541": {
+            "player_name": "zyHan",
+            "team_name": "GTR",
             "player_seat": 5
         },
-        "76561198386285160": {
-            "player_name": "Oath",
-            "team_name": "OOW",
+        "76561198065830177": {
+            "player_name": "foggers",
+            "team_name": "KZG",
             "player_seat": 6
         },
-        "76561197972045728": {
-            "player_name": "viridian",
-            "team_name": "OOW",
+        "76561198260932893": {
+            "player_name": "Kras",
+            "team_name": "KZG",
             "player_seat": 7
         },
-        "76561198168621443": {
-            "player_name": "Freeman",
-            "team_name": "OOW",
+        "76561198130597964": {
+            "player_name": "Estate",
+            "team_name": "KZG",
             "player_seat": 8
         },
-        "76561198158795735": {
-            "player_name": "Terryyy",
-            "team_name": "OOW",
+        "76561198065813737": {
+            "player_name": "Hassie",
+            "team_name": "KZG",
             "player_seat": 9
         },
-        "76561198850174383": {
-            "player_name": "BaN4na",
-            "team_name": "OOW",
+        "76561198138579015": {
+            "player_name": "Samuukxs",
+            "team_name": "KZG",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "M",
-            "shortname": "M"
+            "fullname": "GTR",
+            "shortname": "GTR"
         },
         "right": {
-            "fullname": "OOW",
-            "shortname": "OOW"
+            "fullname": "KZG",
+            "shortname": "KZG"
         }
     },
-    "match_id": "1-6-2-1",
-    "schedule_id": "1-6-2",
+    "match_id": "1-2-12-1",
+    "schedule_id": "1-2-12",
     "is_over": "1"
 }

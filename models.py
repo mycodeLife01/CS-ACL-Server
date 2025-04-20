@@ -219,7 +219,7 @@ class PlayerOffline(Base):
 class DataRoundTeam(Base):
     __tablename__ = "data_round_team"
     match_id = Column(String(255), primary_key=True)
-    round = Column(String(255), primary_key=True)
+    round = Column(Integer, primary_key=True)
     win_team = Column(String(255), nullable=False)
     win_result = Column(String(255), nullable=False)
     team_1 = Column(String(255), nullable=False)
@@ -247,3 +247,74 @@ class PlayerShow(Base):
     player_show_id = Column(Integer, primary_key=True)
     player_name = Column(String(255), nullable=False)
     select = Column(Integer, nullable=False)
+
+
+class DataGameTest(Base):
+    __tablename__ = "data_game_test"
+
+    match_code = Column(String(255), primary_key=True, comment="每场比赛的唯一标识")
+    player_name = Column(String(255), primary_key=True, comment="玩家名称")
+    kills = Column(Integer, nullable=False, comment="击杀数")
+    headshotratio = Column(DECIMAL(5, 2), nullable=False, comment="爆头率")
+    deaths = Column(Integer, nullable=False, comment="死亡数")
+    assists = Column(Integer, nullable=False, comment="助攻数")
+    adr = Column(Integer, nullable=False, comment="每回合均伤")
+    firstkill = Column(Integer, nullable=False, comment="首杀数")
+    firstdeath = Column(Integer, nullable=False, comment="首死数")
+    sniperkills = Column(Integer, nullable=False, comment="狙杀数")
+    muitikills = Column(Integer, nullable=False, comment="多杀数")
+    utilitydmg = Column(Integer, nullable=False, comment="道具伤害")
+    kast = Column(
+        DECIMAL(5, 2), nullable=False, comment="KAST（存活、爆破、助攻、交易）"
+    )
+    rating = Column(DECIMAL(5, 2), nullable=False, comment="选手评分")
+    create_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        comment="创建时间，默认当前时间",
+    )
+    update_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
+        comment="更新时间，默认当前时间",
+    )
+    match_id = Column(String(255), nullable=False)
+    is_delete = Column(Integer, nullable=False)
+
+
+class GameListTest(Base):
+    __tablename__ = "game_list_test"
+
+    match_code = Column(String(255), primary_key=True, comment="每场比赛的唯一标识")
+    game_num = Column(Integer, nullable=False, unique=True, comment="本赛季第几场比赛")
+    match_week = Column(Integer, nullable=False, comment="比赛周")
+    match_day = Column(Integer, nullable=False, comment="比赛周中的比赛日")
+    match_num = Column(Integer, nullable=False, comment="比赛日的第几场比赛")
+    type = Column(Integer, nullable=False, comment="0代表bo1, 1代表bo3")
+    series = Column(
+        Integer,
+        nullable=False,
+        unique=True,
+        comment="系列赛，每个bo1和bo3均代表一个系列赛",
+    )
+    create_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        comment="创建时间，默认当前时间",
+    )
+    update_time = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
+        comment="更新时间，默认当前时间",
+    )
+    description = Column(String(255), comment="第x周第x日第x场第x局")
+    team1 = Column(String(255))
+    team2 = Column(String(255))
+    win_team = Column(String(255))
+    match_id = Column(String(255), nullable=False)

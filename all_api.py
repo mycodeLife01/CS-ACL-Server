@@ -147,9 +147,22 @@ def get_aftergame_board():
 
 
 def get_aftergame_slide_bar():
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
     try:
         aftergame_data = readJsonFile("gsi_data.json")
-        round_results = list(aftergame_data["map"]["round_wins"].values())
+        if aftergame_data["map"]["team_t"]["score"] + aftergame_data["map"]["team_ct"]["score"] > 24:
+            match_id = player_info["match_id"]
+            round_results = [
+                item[0]
+                for item in session.query(DataRoundTeam.win_result)
+                .filter(DataRoundTeam.match_id == match_id)
+                .order_by(DataRoundTeam.round.asc())
+                .all()
+            ]
+            
+        else:
+            round_results = list(aftergame_data["map"]["round_wins"].values())
         n = len(round_results)
         top = [0] * n
         bottom = [0] * n
@@ -178,12 +191,14 @@ def get_aftergame_slide_bar():
                 elif result == "ct_win_time":
                     top[i] = 3
         if n > 24:
-            top = top[0:23]
-            bottom = bottom[0:23]
+            top = top[0:24]
+            bottom = bottom[0:24]
 
         return {"top": top, "bottom": bottom}
     except Exception as e:
         print(f"发生错误：{e},在第{e.__traceback__.tb_lineno}行")
+    finally:
+        session.close()
 
 
 @app.route("/aftergameBoard")
@@ -529,6 +544,7 @@ def saveMatchData():
             kast=kast,
             rating=rating,
             match_id=match_id,
+            is_delete=0,
         )
         # 使用 merge 可在记录已存在时进行更新，否则插入新记录
         session.merge(data_game)
