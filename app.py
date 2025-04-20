@@ -903,6 +903,9 @@ def store_round_data():
             ]
 
             for player in player_stats:
+                steam_ids_record = player_info["player"].keys()
+                if player["steam_id"] not in steam_ids_record:
+                    continue
                 data_round = DataRound(
                     steam_id=player["steam_id"],
                     player_name=player["player_name"],
