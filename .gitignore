@@ -68,3 +68,5 @@ docker-compose.override.yml
 error.txt
 player_info
 ./player_info
+analyse_out
+./analyse_out
