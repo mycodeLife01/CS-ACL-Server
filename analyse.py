@@ -12,16 +12,13 @@ SessionLocal = sessionmaker(
 team_id_list = [
     "CTG",
     "CW",
-    "EXU",
-    "GTR",
     "JJH",
     "JS",
     "NJ",
     "NMDS",
     "OOW",
     "RA",
-    "RSG",
-    "XDM",
+    "EXU"
 ]
 
 output_path = f"analyse_out/analyse_{datetime.now().date()}.xlsx"
@@ -149,7 +146,7 @@ def analyse_player(player_name: str = None) -> dict:
                 .scalar()
             )
             result = {
-                "name": player_name,
+                "name": team + "_" + player_name,
                 "team": team,
                 "rating": round(float(rating), 2),
                 "adr": round(float(adr), 2),

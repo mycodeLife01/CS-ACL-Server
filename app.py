@@ -15,6 +15,7 @@ import requests
 import os
 import logging
 import traceback
+from analyse import analyse_map_pool, analyse_pistol_round, analyse_player
 
 app = Flask(__name__)
 
@@ -60,6 +61,10 @@ left_team = player_info["teams"]["left"]["fullname"]
 right_team = player_info["teams"]["right"]["fullname"]
 left_team_short = player_info["teams"]["left"]["shortname"]
 right_team_short = player_info["teams"]["right"]["shortname"]
+
+SessionLocal = sessionmaker(
+    bind=ENGINELocal, autocommit=False, autoflush=False, expire_on_commit=False
+)
 
 
 def initalizeRound():
@@ -410,7 +415,10 @@ def real_time_score():
         ct_fullname = global_data.data["map"]["team_ct"]["name"]
         match_id = player_info["match_id"]
 
-        for player_data in global_data.data["allplayers"].values():
+        for steam_id, player_data in global_data.data["allplayers"].items():
+            steam_ids_record = player_info["player"].keys()
+            if steam_id not in steam_ids_record:
+                continue
             side = player_data["team"]  # t/ct
             match_stats = player_data["match_stats"]
             adr_dict = get_players_adr(match_id)
@@ -951,368 +959,7 @@ def slide_bar():
     return jsonify({"message": "error"})
 
 
-def compare_map_pool(team_1, team_2):
-    try:
-        Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-        session = Session()
-        # 查询所有team1参加过的赛程
-        schedule_ids_team1_query = (
-            session.query(Schedule.schedule_id)
-            .filter(
-                and_(or_(Schedule.team_1 == team_1, Schedule.team_2 == team_1)),
-                Schedule.stage_id.notin_(["0", "5", "6"]),
-            )
-            .all()
-        )
-        schedule_ids_team1 = [item[0] for item in schedule_ids_team1_query]
-        # 查询所有team2参加过的赛程
-        schedule_ids_team2_query = (
-            session.query(Schedule.schedule_id)
-            .filter(
-                and_(or_(Schedule.team_1 == team_2, Schedule.team_2 == team_2)),
-                Schedule.stage_id.notin_(["0", "5", "6"]),
-            )
-            .all()
-        )
-        schedule_ids_team2 = [item[0] for item in schedule_ids_team2_query]
-        matches_with_team1 = (
-            session.query(Match).filter(Match.schedule_id.in_(schedule_ids_team1)).all()
-        )
-        matches_with_team2 = (
-            session.query(Match).filter(Match.schedule_id.in_(schedule_ids_team2)).all()
-        )
-        team1_map = {}
-        team2_map = {}
-        for match in matches_with_team1:
-            map = match.map
-            win_team = match.winner
-            if map not in team1_map:
-                team1_map.update({map: {"win": 0, "lose": 0}})
-            if win_team == team_1:
-                team1_map[map]["win"] += 1
-            else:
-                team1_map[map]["lose"] += 1
-        for match in matches_with_team2:
-            map = match.map
-            win_team = match.winner
-            if map not in team2_map:
-                team2_map.update({map: {"win": 0, "lose": 0}})
-            if win_team == team_1:
-                team2_map[map]["win"] += 1
-            else:
-                team2_map[map]["lose"] += 1
-        common_maps = list(set(team1_map.keys()) & set(team2_map.keys()))
-        result = []
-        for map in common_maps:
-            map_info_team1 = team1_map[map]
-            map_info_team2 = team2_map[map]
-            result.append(
-                {
-                    "map": map,
-                    "team1": team_1,
-                    "team2": team_2,
-                    "map_info_team1": map_info_team1,
-                    "map_info_team2": map_info_team2,
-                }
-            )
-        return result
-    except Exception as e:
-        logging.error(f"compare_map_pool错误:{e}", exc_info=True)
-
-
-def compare_pistol_round(team_1, team_2):
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
-    try:
-        # team 1
-        team_1_all_pistol_rounds_ct = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_1, DataRoundTeam.team_2 == team_1),
-                    DataRoundTeam.round.in_([1, 13]),
-                    or_(
-                        and_(
-                            DataRoundTeam.win_team == team_1,
-                            DataRoundTeam.win_result.like("c%"),
-                        ),
-                        and_(
-                            DataRoundTeam.win_team != team_1,
-                            DataRoundTeam.win_result.like("t%"),
-                        ),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_1_winning_pistol_rounds_ct_ = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_1, DataRoundTeam.team_2 == team_1),
-                    DataRoundTeam.round.in_([1, 13]),
-                    and_(
-                        DataRoundTeam.win_team == team_1,
-                        DataRoundTeam.win_result.like("c%"),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_1_all_pistol_rounds_t = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_1, DataRoundTeam.team_2 == team_1),
-                    DataRoundTeam.round.in_([1, 13]),
-                    or_(
-                        and_(
-                            DataRoundTeam.win_team == team_1,
-                            DataRoundTeam.win_result.like("t%"),
-                        ),
-                        and_(
-                            DataRoundTeam.win_team != team_1,
-                            DataRoundTeam.win_result.like("c%"),
-                        ),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_1_winning_pistol_rounds_t_ = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_1, DataRoundTeam.team_2 == team_1),
-                    DataRoundTeam.round.in_([1, 13]),
-                    and_(
-                        DataRoundTeam.win_team == team_1,
-                        DataRoundTeam.win_result.like("t%"),
-                    ),
-                )
-            )
-            .count()
-        )
-        # team 2
-        team_2_all_pistol_rounds_ct = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_2, DataRoundTeam.team_2 == team_2),
-                    DataRoundTeam.round.in_([1, 13]),
-                    or_(
-                        and_(
-                            DataRoundTeam.win_team == team_2,
-                            DataRoundTeam.win_result.like("c%"),
-                        ),
-                        and_(
-                            DataRoundTeam.win_team != team_2,
-                            DataRoundTeam.win_result.like("t%"),
-                        ),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_2_winning_pistol_rounds_ct_ = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_2, DataRoundTeam.team_2 == team_2),
-                    DataRoundTeam.round.in_([1, 13]),
-                    and_(
-                        DataRoundTeam.win_team == team_2,
-                        DataRoundTeam.win_result.like("c%"),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_2_all_pistol_rounds_t = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_2, DataRoundTeam.team_2 == team_2),
-                    DataRoundTeam.round.in_([1, 13]),
-                    or_(
-                        and_(
-                            DataRoundTeam.win_team == team_2,
-                            DataRoundTeam.win_result.like("t%"),
-                        ),
-                        and_(
-                            DataRoundTeam.win_team != team_2,
-                            DataRoundTeam.win_result.like("c%"),
-                        ),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_2_winning_pistol_rounds_t_ = (
-            session.query(DataRoundTeam)
-            .filter(
-                and_(
-                    or_(DataRoundTeam.team_1 == team_2, DataRoundTeam.team_2 == team_2),
-                    DataRoundTeam.round.in_([1, 13]),
-                    and_(
-                        DataRoundTeam.win_team == team_2,
-                        DataRoundTeam.win_result.like("t%"),
-                    ),
-                )
-            )
-            .count()
-        )
-        team_1_win_rate_ct = int(
-            (team_1_winning_pistol_rounds_ct_ / team_1_all_pistol_rounds_ct) * 100
-        )
-        team_1_win_rate_t = int(
-            (team_1_winning_pistol_rounds_t_ / team_1_all_pistol_rounds_t) * 100
-        )
-
-        team_2_win_rate_ct = int(
-            (team_2_winning_pistol_rounds_ct_ / team_2_all_pistol_rounds_ct) * 100
-        )
-        team_2_win_rate_t = int(
-            (team_2_winning_pistol_rounds_t_ / team_2_all_pistol_rounds_t) * 100
-        )
-
-        return (
-            team_1_win_rate_ct,
-            team_1_win_rate_t,
-            team_2_win_rate_ct,
-            team_2_win_rate_t,
-        )
-    except Exception as e:
-        logging.error(f"compare_map_pool错误:{e}", exc_info=True)
-
-
-def compare_player_stats(player_1, player_2):
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
-    try:
-        team_1 = (
-            session.query(PlayerList.team)
-            .filter(PlayerList.nickname == player_1)
-            .scalar()
-        )
-        team_2 = (
-            session.query(PlayerList.team)
-            .filter(PlayerList.nickname == player_2)
-            .scalar()
-        )
-        rating_1, adr_1 = (
-            session.query(
-                func.avg(DataGame.rating).label("AVG_RATING"),
-                func.avg(DataGame.adr).label("AVG_ADR"),
-            )
-            .filter(and_(DataGame.player_name == player_1, DataGame.is_delete != 1))
-            .first()
-        )
-        rating_2, adr_2 = (
-            session.query(
-                func.avg(DataGame.rating).label("AVG_RATING"),
-                func.avg(DataGame.adr).label("AVG_ADR"),
-            )
-            .filter(and_(DataGame.player_name == player_2, DataGame.is_delete != 1))
-            .first()
-        )
-
-        player_1_kpr = (
-            session.query(
-                (
-                    func.sum(DataRound.round_kills) / func.count(DataRound.round_kills)
-                ).label("KPR")
-            )
-            .filter(and_(DataRound.player_name == player_1))
-            .scalar()
-        )
-        player_2_kpr = (
-            session.query(
-                (
-                    func.sum(DataRound.round_kills) / func.count(DataRound.round_kills)
-                ).label("KPR")
-            )
-            .filter(DataRound.player_name == player_2)
-            .scalar()
-        )
-        result = {
-            "player_1": {
-                "player_name": player_1,
-                "team": team_1,
-                "rating": round(rating_1, 2),
-                "adr": round(adr_1, 2),
-                "kpr": round(player_1_kpr, 2),
-            },
-            "player_2": {
-                "player_name": player_2,
-                "team": team_2,
-                "rating": round(rating_2, 2),
-                "adr": round(adr_2, 2),
-                "kpr": round(player_2_kpr, 2),
-            },
-        }
-        return result
-    except Exception as e:
-        logging.error(f"compare_player_stats错误:{e}", exc_info=True)
-
-
-def show_player_performance(player_name):
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
-    try:
-        team = (
-            session.query(PlayerList.team)
-            .filter(PlayerList.nickname == player_name)
-            .scalar()
-        )
-        rating, adr = (
-            session.query(
-                func.avg(DataGame.rating).label("AVG_RATING"),
-                func.avg(DataGame.adr).label("AVG_ADR"),
-            )
-            .filter(and_(DataGame.player_name == player_name, DataGame.is_delete != 1))
-            .first()
-        )
-        kpr = (
-            session.query(
-                (
-                    func.sum(DataRound.round_kills) / func.count(DataRound.round_kills)
-                ).label("KPR")
-            )
-            .filter(and_(DataRound.player_name == player_name))
-            .scalar()
-        )
-        result = {
-            "team": team,
-            "player_name": player_name,
-            "rating": round(rating, 2),
-            "adr": round(adr, 2),
-            "kpr": round(kpr, 2),
-        }
-        return result
-    except Exception as e:
-        logging.error(f"show_player_performance错误:{e}", exc_info=True)
-
-
-@app.route("/player_performance")
-def get_player_performance():
-    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
-    session = Session()
-    try:
-        player_name = (
-            session.query(PlayerShow.player_name)
-            .filter(PlayerShow.select == 1)
-            .scalar()
-        )
-    except Exception as e:
-        logging.error(f"获取当前展示选手错误:{e}", exc_info=True)
-    player_stats = show_player_performance(player_name)
-    if player_stats:
-        return jsonify({"message": "success", "data": player_stats, "code": 200})
-    return jsonify({"message": "error"})
-
-
-@app.route("/player_compare")
+@app.route("/player-compare")
 def get_player_compare():
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
@@ -1324,14 +971,86 @@ def get_player_compare():
         )
     except Exception as e:
         logging.error(f"获取当前选择的选手cp错误:{e}", exc_info=True)
-    cp_player = compare_player_stats(p1, p2)
-    if cp_player:
-        return jsonify({"message": "success", "data": cp_player, "code": 200})
-    return jsonify({"message": "error"})
+    try:
+        p1_stats = analyse_player(p1)
+        p2_stats = analyse_player(p2)
+        result = {"player_1": p1_stats, "player_2": p2_stats}
+
+        return jsonify({"message": "success", "data": result, "code": 200})
+    except Exception as e:
+        logging.error(f"处理选手对比错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
 
 
-@app.route("/team_compare")
-def get_team_compare():
+all_map = [
+    "de_ancient",
+    "de_anubis",
+    "de_dust2",
+    "de_inferno",
+    "de_mirage",
+    "de_nuke",
+    "de_train",
+]
+
+mapname_index_dict = {
+    "de_ancient": 0,
+    "de_anubis": 1,
+    "de_dust2": 2,
+    "de_inferno": 3,
+    "de_mirage": 4,
+    "de_nuke": 5,
+    "de_train": 6,
+}
+
+
+@app.route("/team-compare-map")
+def get_team_compare_map():
+    session = SessionLocal()
+    try:
+        cp = session.query(CpTeam).filter(CpTeam.select == 1).first()
+        team_1 = cp.team_1
+        team_2 = cp.team_2
+    except Exception as e:
+        logging.error(f"获取当前选择的队伍cp错误:{e}", exc_info=True)
+    try:
+        team_map_info = analyse_map_pool([team_1, team_2])
+        result = []
+        for each_map in all_map:
+            result.append(
+                {
+                    "map_name": each_map,
+                    "left": {"wins": 0, "losses": 0, "team_id": team_1},
+                    "right": {"wins": 0, "losses": 0, "team_id": team_2},
+                }
+            )
+        for each_team in team_map_info:
+            map_pool = each_team["map_pool"]
+            team_id = each_team["team"]
+            for map_name, win_loss_list in map_pool.items():
+                if team_id == team_1:
+                    result[mapname_index_dict[map_name]]["left"]["wins"] = (
+                        win_loss_list[0]
+                    )
+                    result[mapname_index_dict[map_name]]["left"]["losses"] = (
+                        win_loss_list[1]
+                    )
+                elif team_id == team_2:
+                    result[mapname_index_dict[map_name]]["right"]["wins"] = (
+                        win_loss_list[0]
+                    )
+                    result[mapname_index_dict[map_name]]["right"]["losses"] = (
+                        win_loss_list[1]
+                    )
+        return jsonify({"message": "success", "data": result, "code": 200})
+    except Exception as e:
+        logging.error(f"处理图池对比错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
+    finally:
+        session.close()
+
+
+@app.route("/team-compare-pistol")
+def get_team_compare_pistol():
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
     try:
@@ -1340,29 +1059,35 @@ def get_team_compare():
         team_2 = cp.team_2
     except Exception as e:
         logging.error(f"获取当前选择的队伍cp错误:{e}", exc_info=True)
-    map_cp = compare_map_pool(team_1, team_2)
-    pistols = compare_pistol_round(team_1, team_2)
-
-    if map_cp and pistols:
-        team_1_win_rate_ct = pistols[0]
-        team_1_win_rate_t = pistols[1]
-        team_2_win_rate_ct = pistols[2]
-        team_2_win_rate_t = pistols[3]
-        result = {
-            "map_cp": map_cp,
-            "pistols": {
-                "ct": {
-                    "team_1_win_rate_ct": f"{team_1_win_rate_ct}%",
-                    "team_2_win_rate_ct": f"{team_2_win_rate_ct}%",
-                },
-                "t": {
-                    "team_1_win_rate_t": f"{team_1_win_rate_t}%",
-                    "team_2_win_rate_t": f"{team_2_win_rate_t}%",
-                },
-            },
-        }
+    try:
+        result = analyse_pistol_round([team_1, team_2])
         return jsonify({"message": "success", "data": result, "code": 200})
-    return jsonify({"message": "error"})
+    except Exception as e:
+        logging.error(f"处理手枪局对比错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
+
+
+@app.route("/player-performance")
+def get_player_performance():
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
+    try:
+        player_name_list = [
+            item[0]
+            for item in session.query(PlayerShow.player_name)
+            .filter(PlayerShow.select == 1)
+            .all()
+        ]
+    except Exception as e:
+        logging.error(f"获取当前选择的Player错误:{e}", exc_info=True)
+    try:
+        result = []
+        for player in player_name_list:
+            result.append(analyse_player(player))
+        return jsonify({"message": "success", "data": result, "code": 200})
+    except Exception as e:
+        logging.error(f"处理Player Performance错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
 
 
 if __name__ == "__main__":

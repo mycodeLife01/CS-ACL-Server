@@ -1,67 +1,68 @@
 {
     "player": {
-        "76561198389496922": {
-            "player_name": "Para",
-            "team_name": "NMDS",
-            "player_seat": 1
-        },
-        "76561198980167844": {
-            "player_name": "clouden",
-            "team_name": "NMDS",
-            "player_seat": 2
-        },
-        "76561198832272185": {
-            "player_name": "hoolig4n",
-            "team_name": "NMDS",
-            "player_seat": 3
-        },
-        "76561198064708384": {
-            "player_name": "Randyyyy",
-            "team_name": "NMDS",
-            "player_seat": 4
-        },
-        "76561198836880088": {
-            "player_name": "HenX",
-            "team_name": "NMDS",
-            "player_seat": 5
-        },
-        "76561198429734322": {
-            "player_name": "ariucle",
-            "team_name": "CW",
-            "player_seat": 6
-        },
-        "76561199247418620": {
-            "player_name": "efire",
-            "team_name": "CW",
-            "player_seat": 7
-        },
-        "76561198362438171": {
-            "player_name": "controlez",
-            "team_name": "CW",
-            "player_seat": 8
-        },
-        "76561198937352870": {
-            "player_name": "ROUX",
-            "team_name": "CW",
-            "player_seat": 9
-        },
-        "76561198842848216": {
-            "player_name": "cool4st",
-            "team_name": "CW",
-            "player_seat": 10
-        }
+      "76561198849807332": {
+        "player_name": "VanceKK",
+        "team_name": "JS",
+        "player_seat": 1
+      },
+      "76561198002087738": {
+        "player_name": "gas",
+        "team_name": "JS",
+        "player_seat": 2
+      },
+      "76561198045736274": {
+        "player_name": "Marek",
+        "team_name": "JS",
+        "player_seat": 3
+      },
+      "76561198868835679": {
+        "player_name": "LULU",
+        "team_name": "JS",
+        "player_seat": 4
+      },
+      "76561198146036157": {
+        "player_name": "qqGOD",
+        "team_name": "JS",
+        "player_seat": 5
+      },
+      "76561198045397601": {
+        "player_name": "SOMEBODY",
+        "team_name": "RA",
+        "player_seat": 6
+      },
+      "76561199016206318": {
+        "player_name": "L1haNg",
+        "team_name": "RA",
+        "player_seat": 7
+      },
+      "76561198013230247": {
+        "player_name": "SUMMER",
+        "team_name": "RA",
+        "player_seat": 8
+      },
+      "76561198352656104": {
+        "player_name": "ChildKing",
+        "team_name": "RA",
+        "player_seat": 9
+      },
+      "76561197976393269": {
+        "player_name": "kaze",
+        "team_name": "RA",
+        "player_seat": 10
+      }
     },
     "teams": {
-        "left": {
-            "fullname": "NMDS",
-            "shortname": "NMDS"
-        },
-        "right": {
-            "fullname": "CW",
-            "shortname": "CW"
-        }
+      "left": {
+        "fullname": "JS",
+        "shortname": "JS"
+      },
+      "right": {
+        "fullname": "RA",
+        "shortname": "RA"
+      }
     },
-    "match_id": "1-2-16-1",
-    "schedule_id": "1-2-16",
-    "is_over": "1"
-}
+    "match_id": "1-2-21-1",
+    "schedule_id": "1-2-21",
+    "is_over": "0"
+  }
+  
