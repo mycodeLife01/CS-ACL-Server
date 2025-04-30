@@ -155,7 +155,7 @@ def get_overall_board() -> dict:
             if player["team"] == "CT":
                 p_data.update({"defusekit": defuse_kit})
                 ct_player_data.append(p_data)
-            else:
+            elif player["team"] == "T":
                 p_data.update({"bomb": bomb})
                 t_player_data.append(p_data)
         tag = (
