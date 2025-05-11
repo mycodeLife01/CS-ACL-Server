@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561198849807332": {
-            "player_name": "VanceKK",
-            "team_name": "JS",
+        "76561198355197522": {
+            "player_name": "Moseyuh",
+            "team_name": "TYL",
             "player_seat": 1
         },
-        "76561198002087738": {
-            "player_name": "gas",
-            "team_name": "JS",
+        "76561198360407641": {
+            "player_name": "Jee",
+            "team_name": "TYL",
             "player_seat": 2
         },
-        "76561198045736274": {
-            "player_name": "Marek",
-            "team_name": "JS",
+        "76561198108796479": {
+            "player_name": "Mercury",
+            "team_name": "TYL",
             "player_seat": 3
         },
-        "76561198868835679": {
-            "player_name": "LULU",
-            "team_name": "JS",
+        "76561198048266764": {
+            "player_name": "Attacker",
+            "team_name": "TYL",
             "player_seat": 4
         },
-        "76561198146036157": {
-            "player_name": "qqGOD",
-            "team_name": "JS",
+        "76561198364937038": {
+            "player_name": "JamYoung",
+            "team_name": "TYL",
             "player_seat": 5
         },
-        "76561198045397601": {
-            "player_name": "SOMEBODY",
-            "team_name": "RA",
+        "76561198072321716": {
+            "player_name": "Liazz",
+            "team_name": "FLY",
             "player_seat": 6
         },
-        "76561199016206318": {
-            "player_name": "L1haNg",
-            "team_name": "RA",
+        "76561198098463229": {
+            "player_name": "regali",
+            "team_name": "FLY",
             "player_seat": 7
         },
-        "76561198013230247": {
-            "player_name": "SUMMER",
-            "team_name": "RA",
+        "76561197987212623": {
+            "player_name": "INS",
+            "team_name": "FLY",
             "player_seat": 8
         },
-        "76561198352656104": {
-            "player_name": "ChildKing",
-            "team_name": "RA",
+        "76561198052888143": {
+            "player_name": "Vexite",
+            "team_name": "FLY",
             "player_seat": 9
         },
-        "76561197976393269": {
-            "player_name": "kaze",
-            "team_name": "RA",
+        "76561198332845251": {
+            "player_name": "nettik",
+            "team_name": "FLY",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "JS",
-            "shortname": "JS"
+            "fullname": "TYL",
+            "shortname": "TYL"
         },
         "right": {
-            "fullname": "RA",
-            "shortname": "RA"
+            "fullname": "FLY",
+            "shortname": "FLY"
         }
     },
-    "match_id": "1-2-21-2",
-    "schedule_id": "1-2-21",
+    "match_id": "1-3-12-2",
+    "schedule_id": "1-3-12",
     "is_over": "1"
 }

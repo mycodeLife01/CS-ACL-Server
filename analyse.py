@@ -9,19 +9,12 @@ SessionLocal = sessionmaker(
     bind=ENGINELocal, autoflush=False, autocommit=False, expire_on_commit=False
 )
 
-team_id_list = [
-    "CTG",
-    "CW",
-    "JJH",
-    "JS",
-    "NJ",
-    "NMDS",
-    "OOW",
-    "RA",
-    "EXU"
-]
+team_id_list = ["JJH", "TYL", "FLY", "LVG"]
 
-output_path = f"analyse_out/analyse_{datetime.now().date()}.xlsx"
+# team_id_list = ["CW", "JS", "NJ", "NMDS"]
+
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+output_path = f"analyse_out/analyse_{timestamp}.xlsx"
 
 
 @contextmanager
@@ -114,6 +107,49 @@ def analyse_pistol_round(team_ids: list[str]) -> list:
         return result
 
 
+def analyse_side_win_rate(team_ids: list[str]) -> list:
+    if not team_ids:
+        return []
+    with get_db() as db:
+        result = []
+        for team_id in team_ids:
+            t_total = 0
+            ct_total = 0
+            t_wins = 0
+            ct_wins = 0
+            rounds = (
+                db.query(DataRoundTeam)
+                .filter(
+                    or_(
+                        DataRoundTeam.team_1 == team_id,
+                        DataRoundTeam.team_2 == team_id,
+                    ),
+                )
+                .all()
+            )
+            for each_round in rounds:
+                win_team = each_round.win_team
+                win_result = each_round.win_result
+                if win_team == team_id:
+                    if win_result.startswith("t"):
+                        t_wins += 1
+                        t_total += 1
+                    else:
+                        ct_wins += 1
+                        ct_total += 1
+                else:
+                    if win_result.startswith("t"):
+                        ct_total += 1
+                    else:
+                        t_total += 1
+            t_win_rate = str(round((t_wins / t_total) * 100, 2)) + "%"
+            ct_win_rate = str(round((ct_wins / ct_total) * 100, 2)) + "%"
+            result.append(
+                {"team": team_id, "t_win_rate": t_win_rate, "ct_win_rate": ct_win_rate}
+            )
+        return result
+
+
 def analyse_player(player_name: str = None) -> dict:
     if not player_name:
         return {}
@@ -177,6 +213,7 @@ def analyse_to_excel():
     map_pool_raw = analyse_map_pool(team_id_list)
     pistol_round_raw = analyse_pistol_round(team_id_list)
     players_raw = get_all_player_stats()
+    side_raw = analyse_side_win_rate(team_id_list)
     map_rows = []
     for each_team in map_pool_raw:
         team = each_team["team"]
@@ -208,10 +245,23 @@ def analyse_to_excel():
             }
         )
     df_players = pd.DataFrame(players_rows)
+
+    side_rows = []
+    for team in side_raw:
+        side_rows.append(
+            {
+                "team": team["team"],
+                "t_win_rate": team["t_win_rate"],
+                "ct_win_rate": team["ct_win_rate"],
+            }
+        )
+    df_side = pd.DataFrame(side_rows)
+
     with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
         df_map.to_excel(writer, sheet_name="Map Pool", index=False)
         df_pistol.to_excel(writer, sheet_name="Pistol Round", index=False)
         df_players.to_excel(writer, sheet_name="Player Stats", index=False)
+        df_side.to_excel(writer, sheet_name="Side win rate", index=False)
     print(f"分析结果已导出至: {output_path}")
 
 

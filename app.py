@@ -959,9 +959,6 @@ def slide_bar():
     return jsonify({"message": "error"})
 
 
-
-
-
 if __name__ == "__main__":
     myServer = server.GSIServer(("127.0.0.1", 3000), "vspo")
     myServer.start_server()
