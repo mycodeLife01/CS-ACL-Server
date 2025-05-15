@@ -34,7 +34,7 @@ const { createApp, ref, reactive, onMounted } = Vue;
           axios.post('http://127.0.0.1:1111/setMvp', formData)
             .then(response => {
               if (response.status === 204) {
-                axios.get('http://127.0.0.1:1111/selectedMVP')
+                axios.get('http://127.0.0.1:1111/mvp')
                   .then(res => {
                     if (res.data && res.data.msg === "请求成功") {
                       mvpCard.value = res.data.data;

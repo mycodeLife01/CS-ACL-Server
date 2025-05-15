@@ -98,6 +98,8 @@ def checkGlobalData():
     #     raise SystemExit
     # print(f'ct timeouts remaining: {global_data.data["map"]["team_ct"]["timeouts_remaining"]}')
     # print(f't timeouts remaining: {global_data.data["map"]["team_t"]["timeouts_remaining"]}')
+    # print(global_data.data['allplayers'])
+    # print(global_data.data['map'])
     # time.sleep(5)
     current_round = global_data.data["map"]["round"]
     # 输出bomb状态，在当前回合内判断，若current_round!=global_data.round，则更新current_round后再取bomb状态
@@ -268,16 +270,38 @@ def backgroundProcess():
         try:
             checkGlobalData()
             sendEventMsg()
-            store_round_data()
-            store_real_time_data()
+            # store_round_data()
+            # store_real_time_data()
         except Exception as e:
             logging.error(f"发生错误{e}", exc_info=True)
             time.sleep(3)
 
 
+# ace_triggered = False
+# timestamp = 0
 @app.route("/allPlayerState")
 def allPlayerState():
-    res = {"players": [], "left_team_timeout": 0, "right_team_timeout": 0, "boom": 0}
+    # global ace_triggered, timestamp
+    res = {
+        "players": [],
+        "left_team_timeout": 0,
+        "right_team_timeout": 0,
+        "boom": 0,
+        "left_team": "",
+        "right_team": "",
+    }
+    # if not ace_triggered:
+    # ace_info = {
+    #     "is_active": 1,
+    #     "player_name_alias": "TYL Jee",
+    #     "player_name_with_team": "TYL_Jee",
+    # }
+    ace_info = {
+        "is_active": 0,
+        "player_name_alias": "",
+        "player_name_with_team": "",
+        "team_name": "",
+    }
     try:
         all_players_data = global_data.data["allplayers"]
         for key, player_data in all_players_data.items():
@@ -288,6 +312,24 @@ def allPlayerState():
             this_player_info = player_info["player"][str(key)]
             # 选手本场比赛数据
             this_player_data = player_data["match_stats"]
+            # 判定ace
+            # if player_data["state"]["round_kills"] == 5 and not ace_triggered:
+            #     ace = 1
+            #     ace_triggered = True
+            #     timestamp = int(time.time())
+            if player_data["state"]["round_kills"] == 5:
+                ace_info.update(
+                    {
+                        "is_active": 1,
+                        "player_name_alias": this_player_info["team_name"]
+                        + " "
+                        + this_player_info["player_name"],
+                        "player_name_with_team": this_player_info["team_name"]
+                        + "_"
+                        + this_player_info["player_name"],
+                        "team_name": this_player_info["team_name"],
+                    }
+                )
             # 判断选手是否存活
             is_dead = 0 if player_data["state"]["health"] > 0 else 1
             res["players"].append(
@@ -295,6 +337,9 @@ def allPlayerState():
                     "player_name": this_player_info["player_name"],
                     "player_name_with_team": this_player_info["team_name"]
                     + "_"
+                    + this_player_info["player_name"],
+                    "play_name_alias": this_player_info["team_name"]
+                    + " "
                     + this_player_info["player_name"],
                     "team_name": this_player_info["team_name"],
                     "seat": this_player_info["player_seat"],
@@ -333,7 +378,9 @@ def allPlayerState():
                 res["right_team_timeout"] = 1
 
         boom = 0
-        planting = 0
+        planting_info = {"left": 0, "right": 0}
+        team_ct_name = global_data.data["map"]["team_ct"]["name"]
+        team_t_name = global_data.data["map"]["team_t"]["name"]
         if (
             "bomb" in global_data.data
             and global_data.data["bomb"]["state"] == "exploded"
@@ -343,12 +390,24 @@ def allPlayerState():
             "bomb" in global_data.data
             and global_data.data["bomb"]["state"] == "planting"
         ):
-            planting = 1
+            if team_t_name == left_team:
+                planting_info["left"] = 1
+            else:
+                planting_info["right"] = 1
+        # if ace_triggered and (int(time.time()) - timestamp) >= 5:
+        #     ace = 0
+        #     ace_triggered = False
         res["boom"] = boom
-        res["planting"] = planting
+        res["planting"] = planting_info
         res["players"].sort(key=lambda a: a["seat"])
+        res["ace_info"] = ace_info
+        if left_team == team_t_name:
+            res["left_team"] = "t"
+            res["right_team"] = "ct"
+        else:
+            res["left_team"] = "ct"
+            res["right_team"] = "t"
         return jsonify({"msg": "succeed", "data": res})
-
     except Exception as e:
         logging.error(f"all player error:{e}", exc_info=True)
         return jsonify({"msg": "Error...", "data": []})
@@ -409,37 +468,38 @@ def real_time_score():
     try:
         ct_wins = 0
         t_wins = 0
-        left_team_player_info = []
-        right_team_player_info = []
-        t_fullname = global_data.data["map"]["team_t"]["name"]
-        ct_fullname = global_data.data["map"]["team_ct"]["name"]
-        match_id = player_info["match_id"]
 
-        for steam_id, player_data in global_data.data["allplayers"].items():
-            steam_ids_record = player_info["player"].keys()
-            if steam_id not in steam_ids_record:
-                continue
-            side = player_data["team"]  # t/ct
-            match_stats = player_data["match_stats"]
-            adr_dict = get_players_adr(match_id)
-            adr = int(adr_dict[player_data["name"]]) if adr_dict is not None else 0
-            data = {
-                "player_name": player_data["name"],
-                "kills": match_stats["kills"],
-                "deaths": match_stats["deaths"],
-                "assists": match_stats["assists"],
-                "adr": adr,
-            }
-            if (side == "T" and t_fullname == left_team) or (
-                side == "CT" and ct_fullname == left_team
-            ):
-                left_team_player_info.append(data)
-            elif (side == "T" and t_fullname == right_team) or (
-                side == "CT" and ct_fullname == right_team
-            ):
-                right_team_player_info.append(data)
-        left_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
-        right_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
+        # left_team_player_info = []
+        # right_team_player_info = []
+        # t_fullname = global_data.data["map"]["team_t"]["name"]
+        # ct_fullname = global_data.data["map"]["team_ct"]["name"]
+        # match_id = player_info["match_id"]
+
+        # for steam_id, player_data in global_data.data["allplayers"].items():
+        #     steam_ids_record = player_info["player"].keys()
+        #     if steam_id not in steam_ids_record:
+        #         continue
+        #     side = player_data["team"]  # t/ct
+        #     match_stats = player_data["match_stats"]
+        #     adr_dict = get_players_adr(match_id)
+        #     adr = int(adr_dict[player_data["name"]]) if adr_dict is not None else 0
+        #     data = {
+        #         "player_name": player_data["name"],
+        #         "kills": match_stats["kills"],
+        #         "deaths": match_stats["deaths"],
+        #         "assists": match_stats["assists"],
+        #         "adr": adr,
+        #     }
+        #     if (side == "T" and t_fullname == left_team) or (
+        #         side == "CT" and ct_fullname == left_team
+        #     ):
+        #         left_team_player_info.append(data)
+        #     elif (side == "T" and t_fullname == right_team) or (
+        #         side == "CT" and ct_fullname == right_team
+        #     ):
+        #         right_team_player_info.append(data)
+        # left_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
+        # right_team_player_info.sort(key=lambda player: player["adr"], reverse=True)
 
         # 如果加时，用另一套逻辑
         if global_data.data["map"]["round"] >= 24:
@@ -452,8 +512,8 @@ def real_time_score():
                     "left_team": left_team_short,
                     "right": ct_data["score"],
                     "right_team": right_team_short,
-                    "left_team_info": left_team_player_info,
-                    "right_team_info": right_team_player_info,
+                    # "left_team_info": left_team_player_info,
+                    # "right_team_info": right_team_player_info,
                 }
             else:
                 return {
@@ -461,8 +521,8 @@ def real_time_score():
                     "left_team": left_team_short,
                     "right": t_data["score"],
                     "right_team": right_team_short,
-                    "left_team_info": left_team_player_info,
-                    "right_team_info": right_team_player_info,
+                    # "left_team_info": left_team_player_info,
+                    # "right_team_info": right_team_player_info,
                 }
 
         if "round_wins" in global_data.data["map"]:
@@ -492,8 +552,8 @@ def real_time_score():
                 "right": right_score,
                 "left_team": left_team_short,
                 "right_team": right_team_short,
-                "left_team_info": left_team_player_info,
-                "right_team_info": right_team_player_info,
+                # "left_team_info": left_team_player_info,
+                # "right_team_info": right_team_player_info,
             }
         else:
             res = {
@@ -501,8 +561,8 @@ def real_time_score():
                 "right": 0,
                 "left_team": left_team_short,
                 "right_team": right_team_short,
-                "left_team_info": [],
-                "right_team_info": [],
+                # "left_team_info": [],
+                # "right_team_info": [],
             }
         return res
     except Exception as e:

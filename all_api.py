@@ -151,7 +151,11 @@ def get_aftergame_slide_bar():
     session = Session()
     try:
         aftergame_data = readJsonFile("gsi_data.json")
-        if aftergame_data["map"]["team_t"]["score"] + aftergame_data["map"]["team_ct"]["score"] > 24:
+        if (
+            aftergame_data["map"]["team_t"]["score"]
+            + aftergame_data["map"]["team_ct"]["score"]
+            > 24
+        ):
             match_id = player_info["match_id"]
             round_results = [
                 item[0]
@@ -160,7 +164,7 @@ def get_aftergame_slide_bar():
                 .order_by(DataRoundTeam.round.asc())
                 .all()
             ]
-            
+
         else:
             round_results = list(aftergame_data["map"]["round_wins"].values())
         n = len(round_results)
@@ -312,7 +316,7 @@ def player_list():
         list = [
             p[0]
             for p in session.query(PlayerList.nickname)
-            .filter(and_(PlayerList.starter == 1, PlayerList.team.in_(("UOB", "idfj"))))
+            .filter(and_(PlayerList.offline == 1, PlayerList.team.in_(("TYL", "FLY"))))
             .all()
         ]
         print(f"player_list:{list}")
@@ -338,6 +342,9 @@ def setMvp():
 # mvp赛后接口
 @app.route("/mvp")
 def mvp():
+    if mvp_player:
+        mvp_info = selectedMVP()
+        return jsonify({"msg": "请求成功", "data": mvp_info})
     Session = sessionmaker(bind=ENGINELocal, autocommit=False)
     session = Session()
     try:
@@ -387,6 +394,7 @@ def mvp():
         # }
         mvp_info = {
             "player_name": team + "_" + name,
+            "player_name_alias": team + " " + name,
             "team": team,
             "kills": mvp.kills,
             "deaths": mvp.deaths,
@@ -418,18 +426,27 @@ def selectedMVP():
             .order_by(GameList.create_time.desc())
             .first()[0]
         )
+        match_id = player_info["match_id"]
         mvp = (
             session.query(DataGame)
             .filter(
                 and_(
                     DataGame.player_name == mvp_player,
                     DataGame.match_code == match_code,
+                    DataGame.match_id == match_id,
                 )
             )
             .first()
         )
+        name = mvp.player_name
+        team = (
+            session.query(PlayerList.team)
+            .filter(PlayerList.player_name == name)
+            .scalar()
+        )
         mvp_info = {
             "player_name": mvp.player_name,
+            "player_name_alias": team + " " + name,
             "kills": mvp.kills,
             "deaths": mvp.deaths,
             "assists": mvp.assists,
@@ -443,12 +460,10 @@ def selectedMVP():
             "kast": float(mvp.kast),
             "rating": float(mvp.rating),
         }
-        return jsonify({"msg": "请求成功", "data": mvp_info})
+        return mvp_info
     except Exception as e:
-        print(f"发生异常：{e}, 在第{e.__traceback__.tb_lineno}行")
-        return jsonify(
-            {"msg": "请求失败", "data": {}, "description": "未查询到匹配的选手！"}
-        )
+        print(f"selectedMVP发生异常：{e}, 在第{e.__traceback__.tb_lineno}行")
+        return {}
 
 
 # 存赛后数据

@@ -158,11 +158,12 @@ def get_overall_board() -> dict:
             elif player["team"] == "T":
                 p_data.update({"bomb": bomb})
                 t_player_data.append(p_data)
-        tag = (
-            "Timeouts"
-            if gsi_data["phase_countdowns"]["phase"] in ("timeout_ct", "timeout_t")
-            else ""
-        )
+        # tag = (
+        #     "Timeouts"
+        #     if gsi_data["phase_countdowns"]["phase"] in ("timeout_ct", "timeout_t")
+        #     else ""
+        # )
+        tag = "Timeouts"
         return {
             "mid_board": mid_board,
             "team_info": {"left_team": ct_player_data, "right_team": t_player_data},

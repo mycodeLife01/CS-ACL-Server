@@ -1,67 +1,67 @@
 {
     "player": {
-        "76561198355197522": {
-            "player_name": "Moseyuh",
-            "team_name": "TYL",
+        "76561197995817501": {
+            "player_name": "FL1T",
+            "team_name": "Virtus",
             "player_seat": 1
         },
-        "76561198360407641": {
-            "player_name": "Jee",
-            "team_name": "TYL",
+        "76561198080114546": {
+            "player_name": "fame",
+            "team_name": "Virtus",
             "player_seat": 2
         },
-        "76561198108796479": {
-            "player_name": "Mercury",
-            "team_name": "TYL",
+        "76561198044045107": {
+            "player_name": "electronic",
+            "team_name": "Virtus",
             "player_seat": 3
         },
-        "76561198048266764": {
-            "player_name": "Attacker",
-            "team_name": "TYL",
+        "76561198014259134": {
+            "player_name": "FL4MUS",
+            "team_name": "Virtus",
             "player_seat": 4
         },
-        "76561198364937038": {
-            "player_name": "JamYoung",
-            "team_name": "TYL",
+        "76561198055109028": {
+            "player_name": "ICY",
+            "team_name": "Virtus",
             "player_seat": 5
         },
-        "76561198072321716": {
-            "player_name": "Liazz",
-            "team_name": "FLY",
+        "76561199063238565": {
+            "player_name": "magixx",
+            "team_name": "Spirit",
             "player_seat": 6
         },
-        "76561198098463229": {
-            "player_name": "regali",
-            "team_name": "FLY",
+        "76561198045898864": {
+            "player_name": "chopper",
+            "team_name": "Spirit",
             "player_seat": 7
         },
-        "76561197987212623": {
-            "player_name": "INS",
-            "team_name": "FLY",
+        "76561198081484775": {
+            "player_name": "sh1ro",
+            "team_name": "Spirit",
             "player_seat": 8
         },
-        "76561198052888143": {
-            "player_name": "Vexite",
-            "team_name": "FLY",
+        "76561198995880877": {
+            "player_name": "zont1x",
+            "team_name": "Spirit",
             "player_seat": 9
         },
-        "76561198332845251": {
-            "player_name": "nettik",
-            "team_name": "FLY",
+        "76561198386265483": {
+            "player_name": "donk",
+            "team_name": "Spirit",
             "player_seat": 10
         }
     },
     "teams": {
         "left": {
-            "fullname": "TYL",
-            "shortname": "TYL"
+            "fullname": "Team Spirit",
+            "shortname": "Team Spirit"
         },
         "right": {
-            "fullname": "FLY",
-            "shortname": "FLY"
+            "fullname": "Virtus.Pro",
+            "shortname": "Virtus.Pro"
         }
     },
-    "match_id": "1-3-12-2",
-    "schedule_id": "1-3-12",
-    "is_over": "1"
+    "match_id": "",
+    "schedule_id": "",
+    "is_over": "0"
 }

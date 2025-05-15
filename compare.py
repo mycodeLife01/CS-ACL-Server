@@ -1,6 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from analyse import analyse_map_pool, analyse_pistol_round, analyse_player
+from analyse import (
+    analyse_map_pool,
+    analyse_pistol_round,
+    analyse_player,
+    analyse_side_win_rate,
+)
 import logging
 from sqlalchemy.orm import sessionmaker
 from models import *
@@ -115,6 +120,24 @@ def get_team_compare_pistol():
         logging.error(f"获取当前选择的队伍cp错误:{e}", exc_info=True)
     try:
         result = analyse_pistol_round([team_1, team_2])
+        return jsonify({"message": "success", "data": result, "code": 200})
+    except Exception as e:
+        logging.error(f"处理手枪局对比错误:{e}", exc_info=True)
+        return jsonify({"message": "error"})
+
+
+@app.route("/team-compare-side")
+def get_team_compare_side():
+    Session = sessionmaker(bind=ENGINELocal, autocommit=False)
+    session = Session()
+    try:
+        cp = session.query(CpTeam).filter(CpTeam.select == 1).first()
+        team_1 = cp.team_1
+        team_2 = cp.team_2
+    except Exception as e:
+        logging.error(f"获取当前选择的队伍cp错误:{e}", exc_info=True)
+    try:
+        result = analyse_side_win_rate([team_1, team_2])
         return jsonify({"message": "success", "data": result, "code": 200})
     except Exception as e:
         logging.error(f"处理手枪局对比错误:{e}", exc_info=True)

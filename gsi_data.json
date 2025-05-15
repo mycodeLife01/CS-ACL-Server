@@ -2,9 +2,9 @@
     "provider": {
         "name": "Counter-Strike: Global Offensive",
         "appid": 730,
-        "version": 14076,
+        "version": 14077,
         "steamid": "76561198849917219",
-        "timestamp": 1746964188
+        "timestamp": 1747148225
     },
     "phase_countdowns": {
         "phase": "freezetime",
@@ -67,70 +67,37 @@
     },
     "player": {
         "match_stats": {
-            "kills": 19,
-            "assists": 9,
-            "deaths": 12,
-            "mvps": 3,
-            "score": 54
+            "kills": 16,
+            "assists": 3,
+            "deaths": 16,
+            "mvps": 1,
+            "score": 38
         },
-        "spectarget": "76561198364937038",
-        "position": "-1385.13, 334.50, 87.03",
-        "forward": "-0.25, 0.94, -0.24",
-        "weapons": {
-            "weapon_0": {
-                "name": "weapon_knife_butterfly",
-                "paintkit": "am_sapphire_marbleized_b",
-                "type": "Knife",
-                "state": "holstered"
-            },
-            "weapon_1": {
-                "name": "weapon_ak47",
-                "paintkit": "gs_ak47_abstract",
-                "type": "Rifle",
-                "ammo_clip": 14,
-                "ammo_clip_max": 30,
-                "ammo_reserve": 90,
-                "state": "active"
-            },
-            "weapon_2": {
-                "name": "weapon_tec9",
-                "paintkit": "default",
-                "type": "Pistol",
-                "ammo_clip": 18,
-                "ammo_clip_max": 18,
-                "ammo_reserve": 90,
-                "state": "holstered"
-            }
-        },
+        "spectarget": "76561198052888143",
+        "position": "-1520.86, 739.99, 54.03",
+        "forward": "-0.42, -0.28, -0.86",
+        "weapons": {},
         "state": {
-            "health": 100,
-            "armor": 100,
-            "helmet": true,
+            "health": 0,
+            "armor": 0,
+            "helmet": false,
             "flashed": 0,
-            "smoked": 0,
+            "smoked": 255,
             "burning": 0,
-            "money": 13400,
-            "round_kills": 3,
+            "money": 3550,
+            "round_kills": 0,
             "round_killhs": 0,
-            "round_totaldmg": 128,
-            "equip_value": 5400
+            "round_totaldmg": 0,
+            "equip_value": 5450
         },
-        "steamid": "76561198364937038",
-        "clan": "TYL",
-        "name": "JamYoung",
-        "observer_slot": 6,
-        "team": "T",
+        "steamid": "76561198052888143",
+        "clan": "FLY",
+        "name": "Vexite",
+        "observer_slot": 3,
+        "team": "CT",
         "activity": "playing"
     },
     "grenades": {
-        "223": {
-            "owner": "76561198332845251",
-            "position": "-1403.12, 780.91, 56.03",
-            "velocity": "0.00, 0.00, 0.00",
-            "lifetime": "10.6",
-            "type": "smoke",
-            "effecttime": "8.9"
-        },
         "265": {
             "owner": "76561198072321716",
             "position": "-1567.75, 966.09, 58.03",
@@ -138,6 +105,14 @@
             "lifetime": "20.4",
             "type": "smoke",
             "effecttime": "18.0"
+        },
+        "223": {
+            "owner": "76561198332845251",
+            "position": "-1403.12, 780.91, 56.03",
+            "velocity": "0.00, 0.00, 0.00",
+            "lifetime": "10.6",
+            "type": "smoke",
+            "effecttime": "8.9"
         }
     },
     "allplayers": {
@@ -153,8 +128,8 @@
                 "mvps": 1,
                 "score": 35
             },
-            "position": "-1385.13, 334.50, 87.03",
-            "forward": "-0.88, -0.41, -0.24",
+            "position": "-1385.19, 334.49, 87.03",
+            "forward": "-0.87, -0.43, -0.24",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -182,8 +157,8 @@
                 "mvps": 3,
                 "score": 54
             },
-            "position": "-1385.13, 334.50, 87.03",
-            "forward": "-0.25, 0.94, -0.24",
+            "position": "-1385.19, 334.49, 87.03",
+            "forward": "-0.26, 0.94, -0.25",
             "state": {
                 "health": 100,
                 "armor": 100,
@@ -236,8 +211,8 @@
                 "mvps": 2,
                 "score": 26
             },
-            "position": "-1385.13, 334.50, 87.03",
-            "forward": "-0.87, -0.42, -0.24",
+            "position": "-1385.19, 334.49, 87.03",
+            "forward": "-0.87, -0.43, -0.25",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -266,7 +241,7 @@
                 "score": 52
             },
             "position": "-1462.61, 646.11, 67.77",
-            "forward": "0.23, -0.97, 0.06",
+            "forward": "0.24, -0.97, 0.05",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -294,8 +269,8 @@
                 "mvps": 3,
                 "score": 53
             },
-            "position": "-1385.13, 334.50, 87.03",
-            "forward": "-0.87, -0.42, -0.24",
+            "position": "-1385.19, 334.49, 87.03",
+            "forward": "-0.87, -0.43, -0.25",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -324,7 +299,7 @@
                 "score": 52
             },
             "position": "-1462.61, 646.11, 67.77",
-            "forward": "-0.90, -0.43, 0.06",
+            "forward": "-0.89, -0.45, 0.05",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -352,8 +327,8 @@
                 "mvps": 4,
                 "score": 54
             },
-            "position": "-1385.13, 334.50, 87.03",
-            "forward": "-0.87, -0.42, -0.24",
+            "position": "-1385.19, 334.49, 87.03",
+            "forward": "-0.87, -0.43, -0.25",
             "state": {
                 "health": 0,
                 "armor": 0,
@@ -382,7 +357,7 @@
                 "score": 30
             },
             "position": "-1462.61, 646.11, 67.77",
-            "forward": "-0.90, -0.43, 0.06",
+            "forward": "-0.89, -0.45, 0.05",
             "state": {
                 "health": 0,
                 "armor": 0,
